@@ -1,0 +1,6 @@
+@BSS_Backend_Opgave_HostAddress = http://localhost:5225
+
+GET {{BSS_Backend_Opgave_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
