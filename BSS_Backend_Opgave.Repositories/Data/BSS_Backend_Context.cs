@@ -19,5 +19,9 @@ public class BSS_Backend_Context : DbContext
 
     public DbSet<Sensor> Sensor { get; set; } = default!;
     
-    public DbSet<Organisation> Organisations { get; set; } = default!;
+    public DbSet<Organisation> Organisation { get; set; } = default!;
+    
+    public DbSet<EventLog> EventLog { get; set; } = default!;
+    
+    public DbSet<State> State { get; set; } = default!;
 }

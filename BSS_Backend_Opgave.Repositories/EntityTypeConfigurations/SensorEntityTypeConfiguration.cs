@@ -14,7 +14,6 @@ public class SensorEntityTypeConfiguration : IEntityTypeConfiguration<Sensor>
 
         builder.Property(x => x.Name).HasColumnType("varchar(32)");
         builder.Property(x => x.Location).HasColumnType("varchar(32)");
-        builder.Property(x => x.Name).HasColumnType("varchar(32)");
 
 
 

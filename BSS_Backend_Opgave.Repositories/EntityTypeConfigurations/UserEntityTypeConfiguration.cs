@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BSS_Backend_Opgave.Repositories.EntityTypeConfigurations;
 
-public class UserEntityTypeConfiguration : IEntityTypeConfiguration<Models.User>
+public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<Models.User> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.HasKey(x => x.Id);
 
