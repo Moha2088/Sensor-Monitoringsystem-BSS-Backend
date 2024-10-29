@@ -4,7 +4,7 @@ public class State
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string StateType { get; set; } = null!;
 
     public int EventLogId { get; set; }
 

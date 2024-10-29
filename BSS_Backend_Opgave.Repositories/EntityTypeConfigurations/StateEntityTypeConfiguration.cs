@@ -10,7 +10,7 @@ public class StateEntityTypeConfiguration : IEntityTypeConfiguration<State>
     {
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Name).HasColumnType("varchar(32)");
+        builder.Property(x => x.StateType).HasColumnType("varchar(32)");
 
 
 
