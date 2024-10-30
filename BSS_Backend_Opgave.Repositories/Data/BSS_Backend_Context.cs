@@ -24,4 +24,6 @@ public class BSS_Backend_Context : DbContext
     public DbSet<EventLog> EventLog { get; set; } = default!;
     
     public DbSet<State> State { get; set; } = default!;
+
+    public DbSet<SensorCategory> SensorCategory { get; set; } = default!;
 }
