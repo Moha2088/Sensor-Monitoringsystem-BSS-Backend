@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using BSS_Backend_Opgave.Models;
 using Microsoft.AspNetCore.Mvc;
-using BSS_Backend_Opgave.Models;
-using BSS_Backend_Opgave.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace BSS_Backend_Opgave.Controllers
+namespace BSS_Backend_Opgave.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
