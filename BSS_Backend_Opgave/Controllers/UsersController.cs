@@ -19,7 +19,7 @@ public class UsersController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
 
-    public UsersController(UserRepository userRepository) => _userRepository = userRepository;
+    public UsersController(IUserRepository userRepository) => _userRepository = userRepository;
 
     /// <summary>
     /// Creates a user

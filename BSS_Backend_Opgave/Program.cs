@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Text;
 using BSS_Backend_Opgave.API.Hubs;
-using BSS_Backend_Opgave.API.Middleware;
+
 
 using BSS_Backend_Opgave.Repositories;
 using BSS_Backend_Opgave.Repositories.Repository;
@@ -23,9 +23,10 @@ builder.Services.AddDbContext<BSS_Backend_OpgaveAPIContext>(options =>
 
 // Add services to the container.
 
-//builder.Services.RegisterServices();
-
 builder.Services.AddControllers();
+builder.Services.RegisterServices();
+builder.Services.AddAutoMapper(typeof(Program));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
