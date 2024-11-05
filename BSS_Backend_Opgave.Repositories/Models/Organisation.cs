@@ -10,6 +10,6 @@ namespace BSS_Backend_Opgave.Models
 
         public ICollection<User> Users { get; set; } = null!;
 
-        public ICollection<Sensor> Sensor {  get; set; } = null!;
+        public ICollection<Sensor>? Sensor {  get; set; } = null!;
     }
 }

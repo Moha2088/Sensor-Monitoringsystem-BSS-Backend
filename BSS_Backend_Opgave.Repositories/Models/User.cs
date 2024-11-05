@@ -14,6 +14,6 @@ namespace BSS_Backend_Opgave.Models
 
         public int OrganisationId { get; set; }
 
-        public Organisation Organisation { get; set; } = null!;
+        public Organisation? Organisation { get; set; } = null!;
     }
 }

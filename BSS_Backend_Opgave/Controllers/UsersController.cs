@@ -1,102 +1,97 @@
-﻿using BSS_Backend_Opgave.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BSS_Backend_Opgave.Models;
+using BSS_Backend_Opgave.API;
+using BSS_Backend_Opgave.Repositories.Repository;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
+using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
 
-namespace BSS_Backend_Opgave.API.Controllers
+namespace BSS_Backend_Opgave.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class UsersController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController : ControllerBase
+    private readonly IUserRepository _userRepository;
+
+    public UsersController(UserRepository userRepository) => _userRepository = userRepository;
+
+    /// <summary>
+    /// Creates a user
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     POST /users
+    ///     {
+    ///        "name": "AUser123",
+    ///        "email": "AUser123@gmail.com",
+    ///        "password": "APassword123"
+    ///     }
+    ///
+    /// </remarks>
+    /// <param name="dto">Data to create a user</param>
+    /// <param name="cancellationToken">A cancellationToken for cancelling requests</param>
+    /// <response code="201">Returns created when user has been created</response>
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [HttpPost]
+    public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO dto, CancellationToken cancellationToken)
     {
-        private readonly BSS_Backend_Context _context;
+        var result = await _userRepository.CreateUser(dto, cancellationToken);
+        return Created(nameof(CreateUser), result);
+    }
 
-        public UsersController(BSS_Backend_Context context)
+    /// <summary>
+    /// Gets a user
+    /// </summary>
+    /// <param name="id">Id of the user</param>
+    /// <param name="cancellationToken">A cancellationToken for cancelling requests</param>
+    /// <response code="200">Returns Ok with the user if the user exists</response>
+    /// <response code="404">Returns NotFound if the user doesn't exists</response>
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(int id, CancellationToken cancellationToken)
+    {
+        var result = await _userRepository.GetUser(id, cancellationToken);
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Gets a list of users
+    /// </summary>
+    /// <param name="cancellationToken">A cancellationToken for cancelling requests</param>
+    /// <response code ="200">Returns OK with the users</response>
+    /// <response code ="404">Returns NotFound if no users exist</response>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpGet]
+    public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
+    {
+        var results = await _userRepository.GetUsers(cancellationToken);
+
+        if (!results.Any())
         {
-            _context = context;
+            return NotFound("No users exists!");
         }
 
-        // GET: api/Users
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
-        {
-            return await _context.User.ToListAsync();
-        }
+        return Ok(results);
+    }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
-            var user = await _context.User.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
-        }
-
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.User.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.User.Any(e => e.Id == id);
-        }
+    /// <summary>
+    /// Deletes a user
+    /// </summary>
+    /// <param name="id">Id of the user</param>
+    /// <param name="cancellationToken">A cancellationToken for cancelling requests</param>
+    /// <response code ="204">Returns nocontent when deleted</response>
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> DeleteUser(int id, CancellationToken cancellationToken)
+    {
+        await _userRepository.DeleteUser(id, cancellationToken);
+        return NoContent();
     }
 }

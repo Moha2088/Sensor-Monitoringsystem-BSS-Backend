@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BSS_Backend_Opgave.Repositories.Repository
+namespace BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos
 {
-    public interface IUserRepository
+    public class UserCreateDTO
     {
-        
+
     }
 }
