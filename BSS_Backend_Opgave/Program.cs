@@ -17,6 +17,7 @@ using BSS_Backend_Opgave.Repositories.Data;
 using BSS_Backend_Opgave.API.Extensions;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile;
 using BSS_Backend_Opgave.Repositories.Models.Seeder;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BSS_Backend_OpgaveAPIContext>(options =>
@@ -34,6 +35,32 @@ builder.Services.AddSwaggerGen(opt =>
 {
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     opt.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
+    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+
+    });
+
+    opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+
+        new string[] { }
+        }
+    });
 });
 
 #region SignalRSetup

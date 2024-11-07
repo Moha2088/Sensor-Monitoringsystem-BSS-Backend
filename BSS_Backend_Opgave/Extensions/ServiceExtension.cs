@@ -29,6 +29,9 @@ namespace BSS_Backend_Opgave.API.Extensions
             collection.AddAutoMapper(typeof(AutoMapperProfile));
             #endregion
 
+            #region Auth
+            collection.AddScoped<IAuthenticationService, AuthenticationService>();
+            #endregion
         }
     }
 }
