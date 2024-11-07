@@ -1,5 +1,8 @@
-﻿using BSS_Backend_Opgave.Repositories.Repository;
+﻿using BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile;
+using BSS_Backend_Opgave.Repositories.Repository;
 using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
+using BSS_Backend_Opgave.Services.Service;
+using BSS_Backend_Opgave.Services.Service.Interfaces;
 
 namespace BSS_Backend_Opgave.API.Extensions
 {
@@ -10,6 +13,7 @@ namespace BSS_Backend_Opgave.API.Extensions
 
             #region User
             collection.AddScoped<IUserRepository, UserRepository>();
+            collection.AddScoped<IUserService, UserService>();
             #endregion
 
             #region Sensor
@@ -18,6 +22,11 @@ namespace BSS_Backend_Opgave.API.Extensions
 
             #region Organisation
             collection.AddScoped<IOrganisationRepository, OrganisationRepository>();
+            collection.AddScoped<IOrganisationService, OrganisationService>();
+            #endregion
+
+            #region AutoMapper
+            collection.AddAutoMapper(typeof(AutoMapperProfile));
             #endregion
 
         }

@@ -35,7 +35,7 @@ namespace BSS_Backend_Opgave.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventLog");
+                    b.ToTable("EventLog", (string)null);
                 });
 
             modelBuilder.Entity("BSS_Backend_Opgave.Models.Organisation", b =>
@@ -52,7 +52,7 @@ namespace BSS_Backend_Opgave.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organisation");
+                    b.ToTable("Organisation", (string)null);
                 });
 
             modelBuilder.Entity("BSS_Backend_Opgave.Models.Sensor", b =>
@@ -83,7 +83,7 @@ namespace BSS_Backend_Opgave.API.Migrations
 
                     b.HasIndex("SensorCategoryId");
 
-                    b.ToTable("Sensor");
+                    b.ToTable("Sensor", (string)null);
                 });
 
             modelBuilder.Entity("BSS_Backend_Opgave.Models.SensorCategory", b =>
@@ -100,7 +100,7 @@ namespace BSS_Backend_Opgave.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SensorCategory");
+                    b.ToTable("SensorCategory", (string)null);
                 });
 
             modelBuilder.Entity("BSS_Backend_Opgave.Models.State", b =>
@@ -123,7 +123,7 @@ namespace BSS_Backend_Opgave.API.Migrations
                     b.HasIndex("EventLogId")
                         .IsUnique();
 
-                    b.ToTable("State");
+                    b.ToTable("State", (string)null);
                 });
 
             modelBuilder.Entity("BSS_Backend_Opgave.Models.User", b =>
@@ -158,7 +158,7 @@ namespace BSS_Backend_Opgave.API.Migrations
 
                     b.HasIndex("OrganisationId1");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("BSS_Backend_Opgave.Models.Sensor", b =>

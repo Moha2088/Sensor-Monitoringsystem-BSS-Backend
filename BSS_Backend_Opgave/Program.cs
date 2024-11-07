@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using BSS_Backend_Opgave.Repositories.Data;
 using BSS_Backend_Opgave.API.Extensions;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile;
+using BSS_Backend_Opgave.Repositories.Models.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BSS_Backend_OpgaveAPIContext>(options =>
@@ -25,7 +27,6 @@ builder.Services.AddDbContext<BSS_Backend_OpgaveAPIContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.RegisterServices();
-builder.Services.AddAutoMapper(typeof(Program));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -68,9 +69,9 @@ var app = builder.Build();
 
 #region SeederConfig
 
-// using var scope = app.Services.CreateScope();
-// var services = scope.ServiceProvider;
-// SeedData.Initialize(services);
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+SeedData.Initialize(services);
 
 #endregion
 

@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BSS_Backend_Opgave.Repositories\BSS_Backend_Opgave.Repositories.csproj" />
+    <ProjectReference Include="..\BSS_Backend_Opgave.Services\BSS_Backend_Opgave.Services.csproj" />
   </ItemGroup>
 
 </Project>

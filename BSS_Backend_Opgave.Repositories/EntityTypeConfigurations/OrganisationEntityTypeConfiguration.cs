@@ -17,10 +17,12 @@ namespace BSS_Backend_Opgave.Repositories.EntityTypeConfigurations
 
             builder.HasMany(x => x.Users)
                 .WithOne(x => x.Organisation)
+                .HasForeignKey(x => x.OrganisationId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(x => x.Sensor)
                 .WithOne(x => x.Organisation)
+                .HasForeignKey(x => x.OrganisationId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             #endregion

@@ -10,6 +10,7 @@ using BSS_Backend_Opgave.API;
 using BSS_Backend_Opgave.Repositories.Repository;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
+using BSS_Backend_Opgave.Services.Service.Interfaces;
 
 namespace BSS_Backend_Opgave.API.Controllers;
 
@@ -17,9 +18,9 @@ namespace BSS_Backend_Opgave.API.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserRepository _userService;
 
-    public UsersController(IUserRepository userRepository) => _userRepository = userRepository;
+    public UsersController(IUserRepository userService) => _userService = userService;
 
     /// <summary>
     /// Creates a user
@@ -42,7 +43,7 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO dto, CancellationToken cancellationToken)
     {
-        var result = await _userRepository.CreateUser(dto, cancellationToken);
+        var result = await _userService.CreateUser(dto, cancellationToken);
         return Created(nameof(CreateUser), result);
     }
 
@@ -56,7 +57,7 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(int id, CancellationToken cancellationToken)
     {
-        var result = await _userRepository.GetUser(id, cancellationToken);
+        var result = await _userService.GetUser(id, cancellationToken);
         return Ok(result);
     }
 
@@ -71,7 +72,7 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
     {
-        var results = await _userRepository.GetUsers(cancellationToken);
+        var results = await _userService.GetUsers(cancellationToken);
 
         if (!results.Any())
         {
@@ -91,7 +92,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteUser(int id, CancellationToken cancellationToken)
     {
-        await _userRepository.DeleteUser(id, cancellationToken);
+        await _userService.DeleteUser(id, cancellationToken);
         return NoContent();
     }
 }
