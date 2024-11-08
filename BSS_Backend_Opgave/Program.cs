@@ -1,25 +1,19 @@
 using System.Reflection;
 using System.Text;
 using BSS_Backend_Opgave.API.Hubs;
-
-
-using BSS_Backend_Opgave.Repositories;
-using BSS_Backend_Opgave.Repositories.Repository;
-using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
-using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using BSS_Backend_Opgave.Repositories.Data;
 using BSS_Backend_Opgave.API.Extensions;
-using BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile;
 using BSS_Backend_Opgave.Repositories.Models.Seeder;
 using Microsoft.OpenApi.Models;
+using BSS_Backend_Opgave.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 builder.Services.AddDbContext<BSS_Backend_OpgaveAPIContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BSS_Backend_OpgaveAPIContext") ?? throw new InvalidOperationException("Connection string 'BSS_Backend_OpgaveAPIContext' not found.")));
 
@@ -49,16 +43,16 @@ builder.Services.AddSwaggerGen(opt =>
     opt.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
-        new OpenApiSecurityScheme
-        {
-            Reference = new OpenApiReference
+            new OpenApiSecurityScheme
             {
-                Type = ReferenceType.SecurityScheme,
-                Id = "Bearer"
-            }
-        },
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
 
-        new string[] { }
+            Array.Empty<string>()
         }
     });
 });

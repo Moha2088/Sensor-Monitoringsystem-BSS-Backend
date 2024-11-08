@@ -19,9 +19,6 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile
             #region User
 
             CreateMap<UserCreateDTO, User>();
-                //.ForMember(user => user.OrganisationId, opt => opt.Ignore())
-                //.ForMember(user => user.Organisation, opt => opt.Ignore());
-                //.ForMember(user => user.Id, opt => opt.Ignore());
 
             CreateMap<User, UserGetDto>();
 

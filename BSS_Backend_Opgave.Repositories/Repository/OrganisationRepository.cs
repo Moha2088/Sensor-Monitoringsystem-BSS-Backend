@@ -25,14 +25,15 @@ namespace BSS_Backend_Opgave.Repositories.Repository
             var organisation = _mapper.Map<Organisation>(dto);
             _context.Organisation.Add(organisation);
             
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return _mapper.Map<OrganisationGetDto>(organisation);
         }
 
         public async Task DeleteOrganisation(int id, CancellationToken cancellationToken)
         {
-            var organisation = await _context.Organisation.SingleOrDefaultAsync(x => x.Id.Equals(id));
+            var organisation = await _context.Organisation.SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
             _context.Organisation.Remove(organisation!);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<OrganisationGetDto> GetOrganisation(int id, CancellationToken cancellationToken)
@@ -40,7 +41,7 @@ namespace BSS_Backend_Opgave.Repositories.Repository
             var organisation = await _context.Organisation
                 .AsNoTracking()
                 .Include(x => x.Users)
-                .SingleOrDefaultAsync(x => x.Id.Equals(id));
+                .SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
 
             return _mapper.Map<OrganisationGetDto>(organisation);
         }
@@ -49,7 +50,8 @@ namespace BSS_Backend_Opgave.Repositories.Repository
         {
             var organisations = await _context.Organisation
                 .Include(x => x.Users)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
+
             return _mapper.Map<IEnumerable<OrganisationGetDto>>(organisations);
         }
     }

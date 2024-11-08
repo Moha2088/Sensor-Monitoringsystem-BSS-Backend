@@ -8,7 +8,7 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos
 {
     public class AuthenticateUserDto
     {
-        public string Name { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
         public string Password { get; set; } = null!;
     }

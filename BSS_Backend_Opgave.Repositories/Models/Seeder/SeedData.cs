@@ -20,24 +20,43 @@ public class SeedData
                     new Organisation
                     {
                         Name = "UCL"
+                    },
+
+                    new Organisation
+                    {
+                        Name = "BSS"
                     }
 
                 );
             }
 
-            //if (!context.User.Any())
-            //{ 
-            //    context.User.AddRange(
+            if (!context.User.Any())
+            {
+                context.User.AddRange(
 
-            //        new User
-            //        {
-            //            Name = "Mohamed",
-            //            Email = "mo@gmail.com,",
-            //            Password = "Password",
-            //        }
+                    new User
+                    {
+                        Name = "Mohamed",
+                        Email = "mo@ucl.com,",
+                        Password = "Mohamed123",
+                    },
 
-            //    );
-            //}
+                    new User
+                    {
+                        Name = "Sang",
+                        Email = "sn@bss.com",
+                        Password = "Sang123"
+                    },
+
+                    new User
+                    {
+                        Name = "Luke",
+                        Email = "luke@ucl.com",
+                        Password = "Luke123"
+                    }
+
+                );
+            }
 
             context.SaveChanges();
         }

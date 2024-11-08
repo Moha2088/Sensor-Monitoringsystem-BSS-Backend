@@ -21,6 +21,7 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.HasOne<Organisation>()
             .WithMany(x => x.Users)
             .HasForeignKey(x => x.OrganisationId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
 
         #endregion

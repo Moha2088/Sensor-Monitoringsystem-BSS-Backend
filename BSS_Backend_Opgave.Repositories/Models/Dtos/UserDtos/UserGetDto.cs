@@ -17,6 +17,5 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos
 
         public string Password { get; set; } = null!;
 
-        public List<Organisation> Organisations { get; set; }
     }
 }
