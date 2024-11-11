@@ -55,7 +55,7 @@ namespace BSS_Backend_Opgave.Repositories.Repository
 
         public async Task DeleteUser(int id, CancellationToken cancellationToken)
         {
-            var userToDelete = await _context.User.SingleOrDefaultAsync(user => user.Id.Equals(id));
+            var userToDelete = await _context.User.SingleOrDefaultAsync(user => user.Id.Equals(id), cancellationToken);
             _context.User.Remove(userToDelete!);
             await _context.SaveChangesAsync(cancellationToken);
         }

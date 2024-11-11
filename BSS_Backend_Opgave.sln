@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSS_Backend_Opgave.API", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSS_Backend_Opgave.Services", "BSS_Backend_Opgave.Services\BSS_Backend_Opgave.Services.csproj", "{1542C5C8-94B7-48D7-8BB8-E2ED5CA884E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSS_Backend_Opgave.Tests", "BSS_Backend_Opgave.Tests\BSS_Backend_Opgave.Tests.csproj", "{78E8DAEC-1736-4182-8671-A3555070ABBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1542C5C8-94B7-48D7-8BB8-E2ED5CA884E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1542C5C8-94B7-48D7-8BB8-E2ED5CA884E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1542C5C8-94B7-48D7-8BB8-E2ED5CA884E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78E8DAEC-1736-4182-8671-A3555070ABBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78E8DAEC-1736-4182-8671-A3555070ABBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E8DAEC-1736-4182-8671-A3555070ABBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78E8DAEC-1736-4182-8671-A3555070ABBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
