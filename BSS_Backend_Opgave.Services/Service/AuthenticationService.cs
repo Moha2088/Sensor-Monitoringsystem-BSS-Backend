@@ -28,9 +28,10 @@ namespace BSS_Backend_Opgave.Services.Service
             _context = context;
         }
 
+        /// <see cref="IAuthenticationService.AuthenticateUser(AuthenticateUserDto)"/>
         public async Task<string> AuthenticateUser(AuthenticateUserDto dto)
         {
-            if (_context.User.Any(user => user.Email.Equals(dto.Email) && user.Password.Equals(dto.Password))) 
+            if (_context.User.Any(user => user.Email.Equals(dto.Email) && user.Password.Equals(dto.Password)))
             {
                 var user = await _context.User.SingleOrDefaultAsync(user => user.Email.Equals(dto.Email) && user.Password.Equals(dto.Password));
                 return GenerateToken(user!);
@@ -39,6 +40,8 @@ namespace BSS_Backend_Opgave.Services.Service
             return null!;
         }
 
+        /// <see cref="IAuthenticationService.GenerateToken(User)"/>
+        
         public string GenerateToken(User user)
         {
             var options = _jwtOptions.Get(JwtBearerDefaults.AuthenticationScheme);
@@ -62,6 +65,7 @@ namespace BSS_Backend_Opgave.Services.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        /// <see cref="IAuthenticationService.GetOrganisationIdClaim(string)"/>
         public int? GetOrganisationIdClaim(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -70,6 +74,6 @@ namespace BSS_Backend_Opgave.Services.Service
             return Convert.ToInt32(principal?.Value);
         }
 
-       
+
     }
 }

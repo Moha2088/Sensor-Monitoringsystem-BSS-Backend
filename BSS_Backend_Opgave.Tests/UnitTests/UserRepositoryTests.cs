@@ -42,7 +42,7 @@ public class UserRepositoryTests
         {
             Name = "John",
             Password = "Doe123",
-            Email = "johndoe@example.com"
+            Email = "johndoe1@example.com"
         };
 
         var user = _mapper.Map<User>(dto);
@@ -88,19 +88,14 @@ public class UserRepositoryTests
         var dto = new UserCreateDTO
         {
             Name = "JohnJohn",
-            Email = "johndoe@example.com",
+            Email = "johndoe123@example.com",
             Password = "Doe123"
         };
 
         var expectedName = dto.Name;
         var expectedEmail = dto.Email;
         var expectedPassword = dto.Password;
-
-
-        var user = _mapper.Map<User>(dto);
-        _context.User.Add(user);
-        await _context.SaveChangesAsync(cancellationToken);
-
+        
         var result = await _userRepository.CreateUser(dto, cancellationToken);
 
 
@@ -109,5 +104,35 @@ public class UserRepositoryTests
         Assert.Equal(result.Name, expectedName);
         Assert.Equal(result.Email, expectedEmail);
         Assert.Equal(result.Password, expectedPassword);
+    }
+
+    [Fact]
+    public async Task CreateUser_ShouldThrowInvalidOperationException_WhenEmailExists()
+    {
+        var cancellationToken = new CancellationToken();
+
+        var existingUserDto = new UserCreateDTO
+        {
+            Name = "JohnDoe123",
+            Email = "JohnDoe@1236.com",
+            Password = "JohnDoe12345"
+        };
+
+        var existingUser = _mapper.Map<User>(existingUserDto);
+        _context.User.Add(existingUser);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        var userDto = new UserCreateDTO
+        {
+            Name = "JohnDoe456",
+            Email = "JohnDoe@1236.com",
+            Password = "JohnDoe678910"
+        };
+
+        Func<Task> CreateUserAction = async () => await _userRepository.CreateUser(userDto, cancellationToken);
+        
+        await Assert.ThrowsAsync<InvalidOperationException>(CreateUserAction);
+
+
     }
 }
