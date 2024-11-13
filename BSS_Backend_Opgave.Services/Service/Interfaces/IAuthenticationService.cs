@@ -24,12 +24,5 @@ namespace BSS_Backend_Opgave.Services.Service.Interfaces
         /// <param name="user">The user to which the token is generated for</param>
         /// <returns>A A JWT token</returns>
         public string GenerateToken(User user);
-
-        /// <summary>
-        /// Retrieves the value for the organisationId key
-        /// </summary>
-        /// <param name="token">The Token that contains the organisationId claim</param>
-        /// <returns></returns>
-        public int? GetOrganisationIdClaim(string token);
     }
 }

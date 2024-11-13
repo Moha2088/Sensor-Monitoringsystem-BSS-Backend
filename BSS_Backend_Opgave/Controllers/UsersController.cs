@@ -11,9 +11,11 @@ using BSS_Backend_Opgave.Repositories.Repository;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BSS_Backend_Opgave.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class UsersController : ControllerBase

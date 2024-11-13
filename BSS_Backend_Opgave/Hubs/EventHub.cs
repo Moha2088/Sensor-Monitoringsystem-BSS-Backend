@@ -25,20 +25,19 @@ public sealed class EventHub : Hub<IEventHubClient>
 
     public async Task JoinGroup()
     {
-        int? userOrgIdClaim = null;
-        var token = Context.GetHttpContext()!.Request.Headers.SingleOrDefault(x => x.Key.Equals("Token")).Value;
-        userOrgIdClaim = _authenticationService.GetOrganisationIdClaim(token: token!);
-        var groupName = $"Group {userOrgIdClaim}";
-        await Groups.AddToGroupAsync(Context.ConnectionId, groupName: groupName);
+        var userOrgIdClaim = Context.GetHttpContext()!.User.FindFirstValue("organisationId");
+        var groupName = userOrgIdClaim;
+        await Groups.AddToGroupAsync(Context.ConnectionId, groupName: groupName!);
         await Task.Delay(5000);
-        await Clients.Groups(groupName).ReceiveMessage($"User: {Context.ConnectionId} has joined room: {groupName} at {DateTime.Now:HH:mm:ss}");
+        await Clients.Groups(groupName!).ReceiveMessage($"User: {Context.ConnectionId} has joined room: {groupName} at {DateTime.Now:HH:mm:ss}");
     }
 
-    public async Task LeaveGroup(string groupName)
-    {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
-        await Clients.Caller.ReceiveMessage($"You have left room: {groupName} at {DateTime.Now}");
-    }
+    //public async Task LeaveGroup()
+    //{
+    //    int? userOrgIdClaim = _authenticationService.GetOrganisationIdClaim();
+    //    await Groups.RemoveFromGroupAsync(Context.ConnectionId, userOrgIdClaim.ToString()!);
+    //    await Clients.Caller.ReceiveMessage($"You have left room: {userOrgIdClaim.ToString()} at {DateTime.Now}");
+    //}
 
     public override async Task OnDisconnectedAsync(Exception? e)
     {
