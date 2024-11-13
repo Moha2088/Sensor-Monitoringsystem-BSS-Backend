@@ -25,6 +25,15 @@ namespace BSS_Backend_Opgave.Repositories.Repository
 
         public async Task<UserGetDto> CreateUser(UserCreateDTO dto, CancellationToken cancellationToken)
         {
+            var isEmailTaken = _context.User
+                .AsNoTracking()
+                .Any(user => user.Email.Equals(dto.Email));
+
+            if (isEmailTaken)
+            {
+                throw new InvalidOperationException("Email is taken! Try again");
+            }
+
             var user = _mapper.Map<User>(dto);
             var organisation = await _context.Organisation
                 .Include(x => x.Users)
