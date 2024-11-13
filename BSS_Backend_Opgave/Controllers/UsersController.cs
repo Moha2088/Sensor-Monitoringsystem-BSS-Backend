@@ -55,7 +55,7 @@ public class UsersController : ControllerBase
     /// <param name="id">Id of the user</param>
     /// <param name="cancellationToken">A cancellationToken for cancelling requests</param>
     /// <response code="200">Returns Ok with the user if the user exists</response>
-    /// <response code="404">Returns NotFound if the user doesn't exists</response>
+    /// <response code="404">Returns NotFound if the user doesn't exist</response>
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(int id, CancellationToken cancellationToken)
     {
