@@ -20,15 +20,17 @@ namespace BSS_Backend_Opgave.Repositories.Repository
         public OrganisationRepository(BSS_Backend_OpgaveAPIContext context, IMapper mapper) => (_context, _mapper) = (context, mapper);
 
 
+        /// <see cref="IOrganisationRepository.CreateOrganisation(OrganisationCreateDto, CancellationToken)"/>
         public async Task<OrganisationGetDto> CreateOrganisation(OrganisationCreateDto dto, CancellationToken cancellationToken)
         {
             var organisation = _mapper.Map<Organisation>(dto);
             _context.Organisation.Add(organisation);
-            
             await _context.SaveChangesAsync(cancellationToken);
+
             return _mapper.Map<OrganisationGetDto>(organisation);
         }
 
+        /// <see cref="IOrganisationRepository.DeleteOrganisation(int, CancellationToken)"/>
         public async Task DeleteOrganisation(int id, CancellationToken cancellationToken)
         {
             var organisation = await _context.Organisation.SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
@@ -36,6 +38,7 @@ namespace BSS_Backend_Opgave.Repositories.Repository
             await _context.SaveChangesAsync(cancellationToken);
         }
 
+        /// <see cref="IOrganisationRepository.GetOrganisation(int, CancellationToken)"/>
         public async Task<OrganisationGetDto> GetOrganisation(int id, CancellationToken cancellationToken)
         {
             var organisation = await _context.Organisation
@@ -46,10 +49,12 @@ namespace BSS_Backend_Opgave.Repositories.Repository
             return _mapper.Map<OrganisationGetDto>(organisation);
         }
 
+        /// <see cref="IOrganisationRepository.GetOrganisations(CancellationToken)"/>
         public async Task<IEnumerable<OrganisationGetDto>> GetOrganisations(CancellationToken cancellationToken)
         {
             var organisations = await _context.Organisation
                 .Include(x => x.Users)
+                .Include(x => x.Sensors)
                 .ToListAsync(cancellationToken);
 
             return _mapper.Map<IEnumerable<OrganisationGetDto>>(organisations);

@@ -12,6 +12,7 @@ using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace BSS_Backend_Opgave.API.Controllers;
 
@@ -20,9 +21,9 @@ namespace BSS_Backend_Opgave.API.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private readonly IUserRepository _userService;
+    private readonly IUserService _userService;
 
-    public UsersController(IUserRepository userService) => _userService = userService;
+    public UsersController(IUserService userService) => _userService = userService;
 
     /// <summary>
     /// Creates a user
@@ -45,7 +46,8 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO dto, CancellationToken cancellationToken)
     {
-        var result = await _userService.CreateUser(dto, cancellationToken);
+        int.TryParse(HttpContext.User.FindFirstValue("organisationId"), out var organisationId);
+        var result = await _userService.CreateUser(dto, organisationId, cancellationToken);
         return Created(nameof(CreateUser), result);
     }
 

@@ -48,6 +48,10 @@ namespace BSS_Backend_Opgave.Services.Service
             var issuerSigningKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes(_config["JWTSettings:Key"]));
             var signingCredentials = new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256);
 
+            var ownedSensors = _context.Sensor
+                .Where(sensor => sensor.OrganisationId.Equals(user.OrganisationId))
+                .ToList()
+                .Select(sensor => sensor.Id);
 
             var token = new JwtSecurityToken(
                 issuer: _config["JWTSettings:Issuer"],
@@ -56,7 +60,9 @@ namespace BSS_Backend_Opgave.Services.Service
                 {
                     new Claim("userId", user.Id.ToString()),
                     new Claim("organisationId", user.OrganisationId.ToString() ??
-                                            throw new ArgumentException("Missing OrganisationId!"))
+                                            throw new ArgumentException("Missing OrganisationId!")),
+
+                    new Claim("ownedSensors", string.Join(',', ownedSensors))
                 },
                 expires: DateTime.Now.AddMinutes(20),
                 signingCredentials: signingCredentials
@@ -65,15 +71,18 @@ namespace BSS_Backend_Opgave.Services.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        /// <see cref="IAuthenticationService.GetOrganisationIdClaim(string)"/>
-        public int? GetOrganisationIdClaim(string token)
+        /// <see cref="IAuthenticationService.IsViewable(int, int)"/>
+        public async Task<bool> IsViewable(int sensorId, int organisationId)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = (JwtSecurityToken)tokenHandler.ReadToken(token);
-            var principal = jwtSecurityToken.Claims.SingleOrDefault(x => x.Type.Equals("organisationId"));
-            return Convert.ToInt32(principal?.Value);
+            var sensor = await _context.Sensor
+                .AsNoTracking()
+                .SingleOrDefaultAsync(sensor => sensor.Id.Equals(sensorId));
+
+            var organisation = await _context.Organisation
+                .AsNoTracking()
+                .SingleOrDefaultAsync(organisation => organisation.Id.Equals(organisationId));
+
+            return sensor!.OrganisationId.Equals(organisation!.Id);
         }
-
-
     }
 }

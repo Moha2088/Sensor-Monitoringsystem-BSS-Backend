@@ -9,4 +9,8 @@ public class State
     public int EventLogId { get; set; }
 
     public EventLog EventLog { get; set; } = null!;
+
+    public Sensor? Sensor { get; set; }
+
+    public int SensorId { get; set; }
 }

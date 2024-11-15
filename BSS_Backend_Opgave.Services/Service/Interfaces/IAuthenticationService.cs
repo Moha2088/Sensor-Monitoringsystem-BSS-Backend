@@ -24,5 +24,7 @@ namespace BSS_Backend_Opgave.Services.Service.Interfaces
         /// <param name="user">The user to which the token is generated for</param>
         /// <returns>A A JWT token</returns>
         public string GenerateToken(User user);
+
+        public Task<bool> IsViewable(int sensorId, int organisationId);
     }
 }

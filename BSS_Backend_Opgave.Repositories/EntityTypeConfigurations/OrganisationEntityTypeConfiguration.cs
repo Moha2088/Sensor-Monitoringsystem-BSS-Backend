@@ -20,7 +20,7 @@ namespace BSS_Backend_Opgave.Repositories.EntityTypeConfigurations
                 .HasForeignKey(x => x.OrganisationId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(x => x.Sensor)
+            builder.HasMany(x => x.Sensors)
                 .WithOne(x => x.Organisation)
                 .HasForeignKey(x => x.OrganisationId)
                 .OnDelete(DeleteBehavior.Cascade);

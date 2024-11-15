@@ -18,16 +18,19 @@ namespace BSS_Backend_Opgave.Repositories.Repository
         private readonly BSS_Backend_OpgaveAPIContext _context;
         private readonly IMapper _mapper;
 
-        public UserRepository(BSS_Backend_OpgaveAPIContext context, IMapper mapper) =>
-            (_context, _mapper) = (context, mapper);
+        public UserRepository(BSS_Backend_OpgaveAPIContext context, IMapper mapper) 
+        {
+            _context = context;
+            _mapper = mapper;
+        }
 
-
-
-        public async Task<UserGetDto> CreateUser(UserCreateDTO dto, CancellationToken cancellationToken)
+        /// <see cref="IUserRepository.CreateUser(UserCreateDTO, int, CancellationToken)"/>
+        public async Task<UserGetDto> CreateUser(UserCreateDTO dto, int organisationId, CancellationToken cancellationToken)
         {
             var isEmailTaken = _context.User
                 .AsNoTracking()
                 .Any(user => user.Email.Equals(dto.Email));
+
 
             if (isEmailTaken)
             {
@@ -36,15 +39,15 @@ namespace BSS_Backend_Opgave.Repositories.Repository
 
             var user = _mapper.Map<User>(dto);
             var organisation = await _context.Organisation
-                .Include(x => x.Users)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync(organisation => organisation.Id.Equals(organisationId));
 
-            organisation?.Users?.Add(user);
+            user.OrganisationId = organisation!.Id;
             _context.User.Add(user);
             await _context.SaveChangesAsync(cancellationToken);
             return _mapper.Map<UserGetDto>(user);
         }
 
+        /// <see cref="IUserRepository.GetUser(int, CancellationToken)"/>
         public async Task<UserGetDto> GetUser(int id, CancellationToken cancellationToken)
         {
             var user = await _context.User
@@ -53,15 +56,18 @@ namespace BSS_Backend_Opgave.Repositories.Repository
             return _mapper.Map<UserGetDto>(user);
         }
 
+        /// <see cref="IUserRepository.GetUsers(CancellationToken)"/>
         public async Task<IEnumerable<UserGetDto>> GetUsers(CancellationToken cancellationToken)
         {
             var users = await _context.User
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
+
             var mappedUsers = _mapper.Map<IEnumerable<UserGetDto>>(users);
             return mappedUsers;
         }
 
+        /// <see cref="IUserRepository.DeleteUser(int, CancellationToken)"/>
         public async Task DeleteUser(int id, CancellationToken cancellationToken)
         {
             var userToDelete = await _context.User.SingleOrDefaultAsync(user => user.Id.Equals(id), cancellationToken);

@@ -18,6 +18,7 @@ namespace BSS_Backend_Opgave.API.Extensions
 
             #region Sensor
             collection.AddScoped<ISensorRepository, SensorRepository>();
+            collection.AddScoped<ISensorService, SensorService>();
             #endregion
 
             #region Organisation

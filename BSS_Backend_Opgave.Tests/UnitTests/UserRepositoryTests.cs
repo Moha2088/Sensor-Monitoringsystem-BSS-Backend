@@ -84,6 +84,14 @@ public class UserRepositoryTests
     public async Task CreateUser_ShouldReturnUserGetDto_WhenDtoIsValid()
     {
         var cancellationToken = new CancellationToken();
+        var organisation = new Organisation
+        {
+            Name = "Organisation"
+        };
+
+        _context.Organisation.Add(organisation);
+
+        await _context.SaveChangesAsync(cancellationToken);
 
         var dto = new UserCreateDTO
         {
@@ -96,7 +104,7 @@ public class UserRepositoryTests
         var expectedEmail = dto.Email;
         var expectedPassword = dto.Password;
         
-        var result = await _userRepository.CreateUser(dto, cancellationToken);
+        var result = await _userRepository.CreateUser(dto, organisation.Id, cancellationToken);
 
 
         Assert.NotNull(result);
@@ -111,6 +119,11 @@ public class UserRepositoryTests
     {
         var cancellationToken = new CancellationToken();
 
+        var organisation = new Organisation
+        {
+            Name = "Organisation"
+        };
+
         var existingUserDto = new UserCreateDTO
         {
             Name = "JohnDoe123",
@@ -120,6 +133,7 @@ public class UserRepositoryTests
 
         var existingUser = _mapper.Map<User>(existingUserDto);
         _context.User.Add(existingUser);
+        _context.Organisation.Add(organisation);
         await _context.SaveChangesAsync(cancellationToken);
 
         var userDto = new UserCreateDTO
@@ -129,7 +143,7 @@ public class UserRepositoryTests
             Password = "JohnDoe678910"
         };
 
-        Func<Task> CreateUserAction = async () => await _userRepository.CreateUser(userDto, cancellationToken);
+        Func<Task> CreateUserAction = async () => await _userRepository.CreateUser(userDto, organisation.Id, cancellationToken);
         
         await Assert.ThrowsAsync<InvalidOperationException>(CreateUserAction);
 

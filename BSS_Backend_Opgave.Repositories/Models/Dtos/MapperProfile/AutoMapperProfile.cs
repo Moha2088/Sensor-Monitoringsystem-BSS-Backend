@@ -8,6 +8,7 @@ using BSS_Backend_Opgave.Models;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.OrganisationDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
 
 
 namespace BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile
@@ -31,12 +32,18 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile
 
             #endregion
 
-            #region
+            #region EventLogs
 
             CreateMap<EventLogCreateDto, EventLog>();
 
             #endregion
 
+            #region Sensor
+
+            CreateMap<SensorCreateDto, Sensor>();
+            CreateMap<Sensor, SensorGetDto>();
+
+            #endregion
         }
     }
 }

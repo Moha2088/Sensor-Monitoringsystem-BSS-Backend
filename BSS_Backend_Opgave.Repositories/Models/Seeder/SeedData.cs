@@ -13,6 +13,22 @@ public class SeedData
                    serviceProvider.GetRequiredService<
                        DbContextOptions<BSS_Backend_OpgaveAPIContext>>()))
         {
+            if (!context.SensorCategory.Any())
+            {
+                context.AddRange(
+
+                    new SensorCategory
+                    {
+                        Name = "School"
+                    },
+
+                    new SensorCategory
+                    {
+                        Name = "Military"
+                    }
+                );
+            }
+
             if (!context.Organisation.Any())
             {
                 context.Organisation.AddRange(
@@ -37,22 +53,25 @@ public class SeedData
                     new User
                     {
                         Name = "Mohamed",
-                        Email = "mo@ucl.com,",
-                        Password = "Mohamed123",
+                        Email = "mo@ucl.com",
+                        Password = "Mohac123",
+                        
                     },
 
                     new User
                     {
                         Name = "Sang",
                         Email = "sn@bss.com",
-                        Password = "Sang123"
+                        Password = "Sang123",
+                        
                     },
 
                     new User
                     {
                         Name = "Luke",
                         Email = "luke@ucl.com",
-                        Password = "Luke123"
+                        Password = "Luke123",
+                        
                     }
 
                 );
