@@ -8,14 +8,16 @@ namespace BSS_Backend_Opgave.Models
 
         public string Name { get; set; } = null!;
 
-        public int Location { get; set; }
+        public string Location { get; set; }
 
         public int OrganisationId { get; set; }
 
         public Organisation Organisation { get; set; } = null!;
 
-        public SensorCategory SensorCategory { get; set; }
+        public SensorCategory? SensorCategory { get; set; }
 
         public int SensorCategoryId { get; set; }
+
+        public State? State { get; set; }
     }
 }

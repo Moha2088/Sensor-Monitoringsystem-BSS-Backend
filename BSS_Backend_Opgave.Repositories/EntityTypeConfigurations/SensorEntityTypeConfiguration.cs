@@ -22,9 +22,15 @@ public class SensorEntityTypeConfiguration : IEntityTypeConfiguration<Sensor>
         #region Relations
 
         builder.HasOne(x => x.Organisation)
-            .WithMany(x => x.Sensor)
+            .WithMany(x => x.Sensors)
             .HasForeignKey(x => x.OrganisationId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.State)
+            .WithOne(x => x.Sensor)
+            .HasForeignKey<State>(x => x.SensorId)
+            .OnDelete(DeleteBehavior.Restrict);
+
 
         #endregion
     }

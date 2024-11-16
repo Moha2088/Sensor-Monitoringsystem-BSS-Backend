@@ -10,6 +10,7 @@ using BSS_Backend_Opgave.Repositories.Models.Seeder;
 using Microsoft.OpenApi.Models;
 using BSS_Backend_Opgave.Models;
 using Microsoft.AspNetCore.Identity;
+using BSS_Backend_Opgave.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,7 @@ builder.Services.AddSwaggerGen(opt =>
     opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
+        Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
@@ -83,6 +84,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
+builder.Services.AddAuthorization();
+
 #endregion
 
 
@@ -107,10 +110,11 @@ app.UseHttpsRedirection();
 
 app.MapHub<EventHub>("/event");
 
-
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseSensorRequestValidator();
 
 app.MapControllers();
 

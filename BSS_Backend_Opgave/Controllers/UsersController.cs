@@ -11,16 +11,19 @@ using BSS_Backend_Opgave.Repositories.Repository;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace BSS_Backend_Opgave.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private readonly IUserRepository _userService;
+    private readonly IUserService _userService;
 
-    public UsersController(IUserRepository userService) => _userService = userService;
+    public UsersController(IUserService userService) => _userService = userService;
 
     /// <summary>
     /// Creates a user
@@ -43,7 +46,8 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO dto, CancellationToken cancellationToken)
     {
-        var result = await _userService.CreateUser(dto, cancellationToken);
+        int.TryParse(HttpContext.User.FindFirstValue("organisationId"), out var organisationId);
+        var result = await _userService.CreateUser(dto, organisationId, cancellationToken);
         return Created(nameof(CreateUser), result);
     }
 
@@ -53,7 +57,7 @@ public class UsersController : ControllerBase
     /// <param name="id">Id of the user</param>
     /// <param name="cancellationToken">A cancellationToken for cancelling requests</param>
     /// <response code="200">Returns Ok with the user if the user exists</response>
-    /// <response code="404">Returns NotFound if the user doesn't exists</response>
+    /// <response code="404">Returns NotFound if the user doesn't exist</response>
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(int id, CancellationToken cancellationToken)
     {

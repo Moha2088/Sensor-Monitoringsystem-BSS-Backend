@@ -25,11 +25,6 @@ namespace BSS_Backend_Opgave.Services.Service.Interfaces
         /// <returns>A A JWT token</returns>
         public string GenerateToken(User user);
 
-        /// <summary>
-        /// Retrieves the value for the organisationId key
-        /// </summary>
-        /// <param name="token">The Token that contains the organisationId claim</param>
-        /// <returns></returns>
-        public int? GetOrganisationIdClaim(string token);
+        public Task<bool> IsViewable(int sensorId, int organisationId);
     }
 }

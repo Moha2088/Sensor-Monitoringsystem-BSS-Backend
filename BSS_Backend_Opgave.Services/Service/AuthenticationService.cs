@@ -14,17 +14,18 @@ using System.Text;
 using System.Threading.Tasks;
 using BSS_Backend_Opgave.Repositories.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BSS_Backend_Opgave.Services.Service
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IOptionsMonitor<JwtBearerOptions> _jwtOptions;
+        private readonly IConfiguration _config;
         private readonly BSS_Backend_OpgaveAPIContext _context;
 
-        public AuthenticationService(IOptionsMonitor<JwtBearerOptions> jwtOptions, BSS_Backend_OpgaveAPIContext context)
+        public AuthenticationService(BSS_Backend_OpgaveAPIContext context)
         {
-            _jwtOptions = jwtOptions;
+            _config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             _context = context;
         }
 
@@ -44,19 +45,24 @@ namespace BSS_Backend_Opgave.Services.Service
         
         public string GenerateToken(User user)
         {
-            var options = _jwtOptions.Get(JwtBearerDefaults.AuthenticationScheme);
-            var issuerSigningKey = options.TokenValidationParameters.IssuerSigningKey;
+            var issuerSigningKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes(_config["JWTSettings:Key"]));
             var signingCredentials = new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256);
 
+            var ownedSensors = _context.Sensor
+                .Where(sensor => sensor.OrganisationId.Equals(user.OrganisationId))
+                .ToList()
+                .Select(sensor => sensor.Id);
 
             var token = new JwtSecurityToken(
-                issuer: options.ClaimsIssuer,
-                audience: options.Audience,
+                issuer: _config["JWTSettings:Issuer"],
+                audience: _config["JWTSettings:Audience"],
                 claims: new List<Claim>
                 {
                     new Claim("userId", user.Id.ToString()),
                     new Claim("organisationId", user.OrganisationId.ToString() ??
-                                            throw new ArgumentException("Missing OrganisationId!"))
+                                            throw new ArgumentException("Missing OrganisationId!")),
+
+                    new Claim("ownedSensors", string.Join(',', ownedSensors))
                 },
                 expires: DateTime.Now.AddMinutes(20),
                 signingCredentials: signingCredentials
@@ -65,15 +71,18 @@ namespace BSS_Backend_Opgave.Services.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        /// <see cref="IAuthenticationService.GetOrganisationIdClaim(string)"/>
-        public int? GetOrganisationIdClaim(string token)
+        /// <see cref="IAuthenticationService.IsViewable(int, int)"/>
+        public async Task<bool> IsViewable(int sensorId, int organisationId)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = (JwtSecurityToken)tokenHandler.ReadToken(token);
-            var principal = jwtSecurityToken.Claims.SingleOrDefault(x => x.Type.Equals("organisationId"));
-            return Convert.ToInt32(principal?.Value);
+            var sensor = await _context.Sensor
+                .AsNoTracking()
+                .SingleOrDefaultAsync(sensor => sensor.Id.Equals(sensorId));
+
+            var organisation = await _context.Organisation
+                .AsNoTracking()
+                .SingleOrDefaultAsync(organisation => organisation.Id.Equals(organisationId));
+
+            return sensor!.OrganisationId.Equals(organisation!.Id);
         }
-
-
     }
 }

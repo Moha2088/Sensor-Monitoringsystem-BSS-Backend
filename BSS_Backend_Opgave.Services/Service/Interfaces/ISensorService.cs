@@ -1,14 +1,13 @@
-﻿using BSS_Backend_Opgave.Models;
-using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
+﻿using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BSS_Backend_Opgave.Repositories.Repository.Interfaces
+namespace BSS_Backend_Opgave.Services.Service.Interfaces
 {
-    public interface ISensorRepository
+    public interface ISensorService
     {
         /// <summary>
         /// Creates a Sensor
