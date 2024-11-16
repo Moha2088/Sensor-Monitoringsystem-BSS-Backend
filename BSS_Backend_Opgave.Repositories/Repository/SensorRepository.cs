@@ -53,11 +53,12 @@ namespace BSS_Backend_Opgave.Repositories.Repository
             return _mapper.Map<SensorGetDto>(sensor);
         }
 
-        /// <see cref="ISensorRepository.GetSensors(CancellationToken)"/>
-        public async Task<IEnumerable<SensorGetDto>> GetSensors(CancellationToken cancellationToken)
+        /// <see cref="ISensorRepository.GetSensors(int, CancellationToken)"/>
+        public async Task<IEnumerable<SensorGetDto>> GetSensors(int organisationId, CancellationToken cancellationToken)
         {
             var sensors = await _context.Sensor
                 .AsNoTracking()
+                .Where(sensor => sensor.OrganisationId.Equals(organisationId))
                 .ToListAsync(cancellationToken);
 
             return _mapper.Map<IEnumerable<SensorGetDto>>(sensors);

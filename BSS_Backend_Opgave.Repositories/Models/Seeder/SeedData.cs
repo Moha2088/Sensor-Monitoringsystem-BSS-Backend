@@ -7,12 +7,14 @@ namespace BSS_Backend_Opgave.Repositories.Models.Seeder;
 
 public class SeedData
 {
-    public static void Initialize(IServiceProvider serviceProvider)
+    public static async void Initialize(IServiceProvider serviceProvider)
     {
+
         using (var context = new BSS_Backend_OpgaveAPIContext(
                    serviceProvider.GetRequiredService<
                        DbContextOptions<BSS_Backend_OpgaveAPIContext>>()))
         {
+
             if (!context.SensorCategory.Any())
             {
                 context.AddRange(
@@ -35,45 +37,75 @@ public class SeedData
 
                     new Organisation
                     {
-                        Name = "UCL"
+                        Name = "UCL",
+                        Users = new List<User> 
+                        {
+                            new User
+                            {
+                                Name = "Mohamed",
+                                Email = "mo@ucl.com",
+                                Password = "Mohac123",
+                            },
+
+                            new User
+                            {
+                                Name = "Luke",
+                                Email = "luke@ucl.com",
+                                Password = "Luke123",
+                            }
+                        },
+                        
+                        Sensors = new List<Sensor>
+                        {
+                            new Sensor
+                            {
+                                Name = "UCL Sensor1",
+                                Location = "Seebladsgade 1, Odense 5000 C"
+                            },
+                            
+                            new Sensor
+                            {
+                                Name = "UCL Sensor2",
+                                Location = "Niels Bohrs Alle 1 5230 Odense M"
+                            }
+                        }
                     },
 
                     new Organisation
                     {
-                        Name = "BSS"
+                        Name = "BSS",
+                        Users = new List<User>
+                        {
+                            new User
+                            {
+                                Name = "Mads",
+                                Email = "mh@bss.com",
+                                Password = "Mads123",
+                            },
+
+                            new User
+                            {
+                                Name = "Nikolaj",
+                                Email = "nh@bss.com",
+                                Password = "Nikolaj123",
+                            }
+                        },
+                        
+                        Sensors = new List<Sensor>
+                        {
+                            new Sensor
+                            {
+                                Name = "BSS Sensor1",
+                                Location = "Østre Stationsvej 5000 Odense C"
+                            },
+                            
+                            new Sensor
+                            {
+                                Name = "BSS Sensor2",
+                                Location = "Fjordsgade 11"
+                            }
+                        }
                     }
-
-                );
-            }
-
-            if (!context.User.Any())
-            {
-                context.User.AddRange(
-
-                    new User
-                    {
-                        Name = "Mohamed",
-                        Email = "mo@ucl.com",
-                        Password = "Mohac123",
-                        
-                    },
-
-                    new User
-                    {
-                        Name = "Sang",
-                        Email = "sn@bss.com",
-                        Password = "Sang123",
-                        
-                    },
-
-                    new User
-                    {
-                        Name = "Luke",
-                        Email = "luke@ucl.com",
-                        Password = "Luke123",
-                        
-                    }
-
                 );
             }
 

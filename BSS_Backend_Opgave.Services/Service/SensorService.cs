@@ -38,10 +38,10 @@ namespace BSS_Backend_Opgave.Services.Service
             return sensor;
         }
 
-        /// <see cref="ISensorService.GetSensors(CancellationToken)"/>
-        public async Task<IEnumerable<SensorGetDto>> GetSensors(CancellationToken cancellationToken)
+        /// <see cref="ISensorService.GetSensors(int, CancellationToken)"/>
+        public async Task<IEnumerable<SensorGetDto>> GetSensors(int organisationId, CancellationToken cancellationToken)
         {
-            var sensors = await _sensorRepository.GetSensors(cancellationToken);
+            var sensors = await _sensorRepository.GetSensors(organisationId, cancellationToken);
             return sensors;
         }
     }
