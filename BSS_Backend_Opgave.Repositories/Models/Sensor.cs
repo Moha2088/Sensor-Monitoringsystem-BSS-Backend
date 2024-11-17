@@ -16,7 +16,7 @@ namespace BSS_Backend_Opgave.Models
 
         public SensorCategory? SensorCategory { get; set; }
 
-        public int SensorCategoryId { get; set; }
+        public int? SensorCategoryId { get; set; }
 
         public State? State { get; set; }
     }

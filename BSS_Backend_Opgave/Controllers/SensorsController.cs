@@ -73,7 +73,8 @@ namespace BSS_Backend_Opgave.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<SensorGetDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSensors(CancellationToken cancellationToken)
         {
-            var results = await _sensorService.GetSensors(cancellationToken);
+            int.TryParse(HttpContext.User.FindFirstValue("organisationId"), out var organisationId);
+            var results = await _sensorService.GetSensors(organisationId, cancellationToken);
             return results.Any() ? Ok(results) : NotFound();
         }
 
