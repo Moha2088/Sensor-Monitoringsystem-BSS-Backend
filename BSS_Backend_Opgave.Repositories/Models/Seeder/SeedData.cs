@@ -52,6 +52,13 @@ public class SeedData
                                 Name = "Luke",
                                 Email = "luke@ucl.com",
                                 Password = "Luke123",
+                            },
+
+                            new User
+                            {
+                                Name = "Test",
+                                Email = "Test@test.com",
+                                Password = "Test"
                             }
                         },
                         
@@ -88,6 +95,13 @@ public class SeedData
                                 Name = "Nikolaj",
                                 Email = "nh@bss.com",
                                 Password = "Nikolaj123",
+                            },
+
+                            new User
+                            {
+                                Name = "Test",
+                                Email = "Test@test1.com",
+                                Password = "Test"
                             }
                         },
                         
