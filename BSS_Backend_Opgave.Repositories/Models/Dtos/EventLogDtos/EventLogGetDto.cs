@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos
+namespace BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos
 {
-    public class UserGetDto
+    public class EventLogGetDto
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
+        public DateTimeOffset EventTime { get; set; }
 
-        public string Email { get; set; } = null!;
-
+        public State State { get; set; } = null!;
     }
 }

@@ -15,6 +15,6 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.OrganisationDtos
 
         public List<User> Users { get; set; }
 
-        public List<Sensor> Sensor { get; set; }
+        public List<Sensor> Sensors { get; set; }
     }
 }

@@ -118,4 +118,6 @@ app.UseSensorRequestValidator();
 
 app.MapControllers();
 
+app.UseCors();
+
 app.Run();
