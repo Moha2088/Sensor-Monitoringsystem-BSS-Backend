@@ -1,6 +1,7 @@
 ﻿using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ namespace BSS_Backend_Opgave.API.Controllers
     [Authorize]
     [Route("api/sensors")]
     [ApiController]
+    [EnableCors("MyPolicy")]
     public class SensorsController : ControllerBase
     {
         private readonly ISensorService _sensorService;
