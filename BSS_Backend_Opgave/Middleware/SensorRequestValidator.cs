@@ -28,8 +28,6 @@ namespace BSS_Backend_Opgave.API
                 int.TryParse(routePath.ToString().AsSpan("/api/sensors/".Length), out var parsedSensorId);
                 int.TryParse(httpContext.User.FindFirstValue("organisationId"), out var parsedOrganisationId);
 
-                var ownedSensors = httpContext.User.FindFirstValue("ownedSensors");
-
                 if(!await authenticationService.IsViewable(parsedSensorId, parsedOrganisationId))
                 {
                     httpContext.Response.StatusCode = 401;
@@ -38,7 +36,6 @@ namespace BSS_Backend_Opgave.API
                         new ValidatorResponse
                         {
                             ErrorMessage = "Access Denied. This sensor exists outside your organisations scope!",
-                            OwnedSensors = $"These sensors can be accessed by your organisation: {ownedSensors}"
                         }
                     );
 
@@ -60,11 +57,6 @@ namespace BSS_Backend_Opgave.API
         /// Error Message
         /// </summary>
         public string ErrorMessage { get; set; } = null!;
-
-        /// <summary>
-        /// A string with the Id's of all the sensors you are allowed to access
-        /// </summary>
-        public string OwnedSensors { get; set; } = null!;
     }
 
     // Extension method used to add the middleware to the HTTP request pipeline.

@@ -53,11 +53,6 @@ namespace BSS_Backend_Opgave.Services.Service
             var issuerSigningKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes(_config["JWTSettings:Key"]));
             var signingCredentials = new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256);
 
-            var ownedSensors = _context.Sensor
-                .Where(sensor => sensor.OrganisationId.Equals(user.OrganisationId))
-                .ToList()
-                .Select(sensor => sensor.Id);
-
             var token = new JwtSecurityToken(
                 issuer: _config["JWTSettings:Issuer"],
                 audience: _config["JWTSettings:Audience"],
@@ -66,8 +61,6 @@ namespace BSS_Backend_Opgave.Services.Service
                     new Claim("userId", user.Id.ToString()),
                     new Claim("organisationId", user.OrganisationId.ToString() ??
                                             throw new ArgumentException("Missing OrganisationId!")),
-
-                    new Claim("ownedSensors", string.Join(',', ownedSensors))
                 },
                 expires: DateTime.Now.AddMinutes(20),
                 signingCredentials: signingCredentials
