@@ -16,7 +16,7 @@ namespace BSS_Backend_Opgave.Services.Service.Interfaces
         /// </summary>
         /// <param name="dto">Data to authenticate a user</param>
         /// <returns>A token if the user exists</returns>
-        public Task<string> AuthenticateUser(AuthenticateUserDto dto);
+        public Task<AuthenticateUserGetDto> AuthenticateUser(AuthenticateUserDto dto);
 
         /// <summary>
         /// Generates a JWT Token

@@ -13,12 +13,14 @@ using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Cors;
 
 namespace BSS_Backend_Opgave.API.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
+[EnableCors("MyPolicy")]
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;

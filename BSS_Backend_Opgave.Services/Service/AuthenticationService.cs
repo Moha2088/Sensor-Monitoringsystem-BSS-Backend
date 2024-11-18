@@ -30,12 +30,17 @@ namespace BSS_Backend_Opgave.Services.Service
         }
 
         /// <see cref="IAuthenticationService.AuthenticateUser(AuthenticateUserDto)"/>
-        public async Task<string> AuthenticateUser(AuthenticateUserDto dto)
+        public async Task<AuthenticateUserGetDto> AuthenticateUser(AuthenticateUserDto dto)
         {
             if (_context.User.Any(user => user.Email.Equals(dto.Email) && user.Password.Equals(dto.Password)))
             {
                 var user = await _context.User.SingleOrDefaultAsync(user => user.Email.Equals(dto.Email) && user.Password.Equals(dto.Password));
-                return GenerateToken(user!);
+                var token = GenerateToken(user!);
+
+                return new AuthenticateUserGetDto
+                {
+                    Token = token,
+                };
             }
 
             return null!;
