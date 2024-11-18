@@ -24,6 +24,16 @@ builder.Services.AddDbContext<BSS_Backend_OpgaveAPIContext>(options =>
 builder.Services.AddControllers();
 builder.Services.RegisterServices();
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("MyPolicy", opt =>
+    {
+        opt.AllowAnyHeader();
+        opt.AllowAnyMethod();
+        opt.AllowAnyOrigin();
+    });
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
@@ -118,6 +128,6 @@ app.UseSensorRequestValidator();
 
 app.MapControllers();
 
-app.UseCors();
+app.UseCors("MyPolicy");
 
 app.Run();
