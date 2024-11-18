@@ -44,6 +44,7 @@ namespace BSS_Backend_Opgave.Repositories.Repository
             var organisation = await _context.Organisation
                 .AsNoTracking()
                 .Include(x => x.Users)
+                .Include(x => x.Sensors)
                 .SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
 
             return _mapper.Map<OrganisationGetDto>(organisation);
@@ -56,6 +57,7 @@ namespace BSS_Backend_Opgave.Repositories.Repository
                 .Include(x => x.Users)
                 .Include(x => x.Sensors)
                 .ToListAsync(cancellationToken);
+
 
             return _mapper.Map<IEnumerable<OrganisationGetDto>>(organisations);
         }

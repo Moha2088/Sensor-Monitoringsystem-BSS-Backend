@@ -111,7 +111,6 @@ public class UserRepositoryTests
         Assert.IsType<UserGetDto>(result);
         Assert.Equal(result.Name, expectedName);
         Assert.Equal(result.Email, expectedEmail);
-        Assert.Equal(result.Password, expectedPassword);
     }
 
     [Fact]

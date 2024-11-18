@@ -44,6 +44,12 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile
             CreateMap<Sensor, SensorGetDto>();
 
             #endregion
+
+            #region EventLog
+
+            CreateMap<EventLog, EventLogGetDto>();
+
+            #endregion
         }
     }
 }
