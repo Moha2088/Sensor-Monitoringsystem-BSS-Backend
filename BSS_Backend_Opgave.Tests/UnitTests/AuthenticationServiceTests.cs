@@ -30,7 +30,7 @@ namespace BSS_Backend_Opgave.Tests.UnitTests
 
 
         [Fact]
-        public async Task AuthenticateUser_ShouldReturnToken_WhenUserExists()
+        public async Task AuthenticateUser_ShouldReturnAuthenticateUserGetDto_WhenUserExists()
         {
             var user = new User
             {
@@ -53,7 +53,7 @@ namespace BSS_Backend_Opgave.Tests.UnitTests
             var result = await _service.AuthenticateUser(authUserDto);
 
             Assert.NotNull(result);
-            Assert.IsType<string>(result);
+            Assert.IsType<AuthenticateUserGetDto>(result);
         }
 
         [Fact]

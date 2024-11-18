@@ -1,6 +1,7 @@
 ﻿using BSS_Backend_Opgave.Repositories.Models.Dtos.OrganisationDtos;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace BSS_Backend_Opgave.API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyPolicy")]
     public class OrganisationsController : ControllerBase
     {
         private readonly IOrganisationService _organisationService;

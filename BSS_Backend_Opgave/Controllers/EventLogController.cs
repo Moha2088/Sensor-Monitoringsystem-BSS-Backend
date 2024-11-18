@@ -1,4 +1,5 @@
 ﻿using BSS_Backend_Opgave.Services.Service.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,7 @@ namespace BSS_Backend_Opgave.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyPolicy")]
     public class EventLogController : ControllerBase
     {
         private readonly IEventLogService _eventLogService;
