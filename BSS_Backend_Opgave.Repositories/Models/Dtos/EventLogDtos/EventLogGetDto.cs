@@ -13,6 +13,10 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos
 
         public DateTimeOffset EventTime { get; set; }
 
-        public State State { get; set; } = null!;
+        public string SensorName { get; set; } = null!;
+
+        public string SensorLocation { get; set; } = null!;
+
+        public string StateType { get; set; } = null!;
     }
 }

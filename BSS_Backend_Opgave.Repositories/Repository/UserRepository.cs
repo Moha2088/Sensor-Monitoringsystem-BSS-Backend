@@ -39,7 +39,7 @@ namespace BSS_Backend_Opgave.Repositories.Repository
 
             var user = _mapper.Map<User>(dto);
             var organisation = await _context.Organisation
-                .SingleOrDefaultAsync(organisation => organisation.Id.Equals(organisationId));
+                .SingleOrDefaultAsync(organisation => organisation.Id.Equals(organisationId), cancellationToken);
 
             user.OrganisationId = organisation!.Id;
             _context.User.Add(user);
@@ -52,7 +52,7 @@ namespace BSS_Backend_Opgave.Repositories.Repository
         {
             var user = await _context.User
                 .AsNoTracking()
-                .SingleOrDefaultAsync(user => user.Id.Equals(id));
+                .SingleOrDefaultAsync(user => user.Id.Equals(id), cancellationToken);
             return _mapper.Map<UserGetDto>(user);
         }
 
@@ -62,6 +62,7 @@ namespace BSS_Backend_Opgave.Repositories.Repository
             var users = await _context.User
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
+
 
             var mappedUsers = _mapper.Map<IEnumerable<UserGetDto>>(users);
             return mappedUsers;

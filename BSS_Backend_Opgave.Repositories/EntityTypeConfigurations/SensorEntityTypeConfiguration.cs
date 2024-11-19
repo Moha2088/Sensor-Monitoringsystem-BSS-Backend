@@ -19,6 +19,13 @@ public class SensorEntityTypeConfiguration : IEntityTypeConfiguration<Sensor>
         //builder.HasQueryFilter(sensor => sensor.OrganisationId.Equals())
 
 
+        #region Indexes
+
+        builder.HasIndex(x => new { x.Name, x.Location });
+        builder.HasIndex(x => x.Location);
+        
+        #endregion
+        
         #region Relations
 
         builder.HasOne(x => x.Organisation)
@@ -30,6 +37,10 @@ public class SensorEntityTypeConfiguration : IEntityTypeConfiguration<Sensor>
             .WithOne(x => x.Sensor)
             .HasForeignKey<State>(x => x.SensorId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(x => x.EventLogs)
+            .WithOne(x => x.Sensor)
+            .HasForeignKey(x => x.SensorId);
 
 
         #endregion

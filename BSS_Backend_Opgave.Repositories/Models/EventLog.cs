@@ -7,4 +7,10 @@ public class EventLog
     public DateTimeOffset EventTime { get; set; }
 
     public State? State { get; set; }
+
+    public int SensorId { get; set; }
+    
+    public Sensor Sensor { get; set; }
+    
+    
 }

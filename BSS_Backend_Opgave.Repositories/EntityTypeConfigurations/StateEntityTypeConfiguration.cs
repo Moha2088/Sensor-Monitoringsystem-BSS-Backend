@@ -13,6 +13,12 @@ public class StateEntityTypeConfiguration : IEntityTypeConfiguration<State>
         builder.Property(x => x.StateType).HasColumnType("varchar(32)");
 
 
+        #region Indexes
+
+        builder.HasIndex(x => x.StateType);        
+
+        #endregion
+        
 
         #region Relations
 

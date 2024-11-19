@@ -19,5 +19,7 @@ namespace BSS_Backend_Opgave.Models
         public int? SensorCategoryId { get; set; }
 
         public State? State { get; set; }
+        
+        public ICollection<EventLog> EventLogs { get; set; }
     }
 }

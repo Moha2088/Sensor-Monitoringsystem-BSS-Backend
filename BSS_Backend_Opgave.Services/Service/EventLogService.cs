@@ -18,6 +18,12 @@ namespace BSS_Backend_Opgave.Services.Service
             _eventLogRepository = eventLogRepository;
         }
 
+        public async Task<IEnumerable<EventLogGetDto>> GetEventLogs(int organisationId, CancellationToken cancellationToken)
+        {
+            var eventLogs = await _eventLogRepository.GetEventLogs(organisationId, cancellationToken);
+            return eventLogs;
+        }
+
         public async Task<EventLogGetDto> UpdateState()
         {
             var eventLog = await _eventLogRepository.UpdateState();
