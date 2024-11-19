@@ -76,11 +76,7 @@ namespace BSS_Backend_Opgave.Services.Service
                 .AsNoTracking()
                 .SingleOrDefaultAsync(sensor => sensor.Id.Equals(sensorId));
 
-            var organisation = await _context.Organisation
-                .AsNoTracking()
-                .SingleOrDefaultAsync(organisation => organisation.Id.Equals(organisationId));
-
-            return sensor!.OrganisationId.Equals(organisation!.Id);
+            return sensor!.OrganisationId.Equals(organisationId);
         }
     }
 }
