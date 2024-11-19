@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using BSS_Backend_Opgave.Models;
 using AutoMapper;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace BSS_Backend_Opgave.Repositories.Repository
 {
@@ -20,6 +21,19 @@ namespace BSS_Backend_Opgave.Repositories.Repository
         {
             _context = context;
             _mapper = mapper;
+        }
+
+
+        public async Task<IEnumerable<EventLogGetDto>> GetEventLogs(int organisationId, CancellationToken cancellationToken)
+        {
+            var eventLog = await _context.EventLog
+                .AsNoTracking()
+                .Include(eventLog => eventLog.Sensor)
+                .Include(eventLog => eventLog.State)
+                .Where(eventLog => eventLog.Sensor.OrganisationId.Equals(organisationId))
+                .ToListAsync(cancellationToken);
+            
+            return _mapper.Map<IEnumerable<EventLogGetDto>>(eventLog);
         }
 
         public async Task<EventLogGetDto> UpdateState()

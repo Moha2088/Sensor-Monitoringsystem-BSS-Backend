@@ -13,11 +13,20 @@ public class EventLogEntityTypeConfiguration : IEntityTypeConfiguration<EventLog
         builder.Property(x => x.EventTime).HasColumnType("datetimeoffset");
 
 
+        #region Indexes
+
+        builder.HasIndex(x => x.EventTime);
+        
+        #endregion
+
 
         #region Relations
 
         builder.HasOne(x => x.State)
             .WithOne(x => x.EventLog);
+
+        builder.HasOne(x => x.Sensor)
+            .WithMany(x => x.EventLogs);
 
         #endregion
     }

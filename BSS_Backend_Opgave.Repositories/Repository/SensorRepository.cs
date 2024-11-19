@@ -28,22 +28,22 @@ namespace BSS_Backend_Opgave.Repositories.Repository
         {
             var sensor = _mapper.Map<Sensor>(dto);
             var organisation = await _context.Organisation
-                .SingleOrDefaultAsync(x => x.Id.Equals(organisationId));
+                .SingleOrDefaultAsync(x => x.Id.Equals(organisationId), cancellationToken);
 
-            var sensorCategory = await _context.SensorCategory.FirstOrDefaultAsync();
+            var sensorCategory = await _context.SensorCategory.FirstOrDefaultAsync(cancellationToken);
             sensor.OrganisationId = organisation!.Id;
             sensor.SensorCategoryId = sensorCategory!.Id;
             _context.Add(sensor);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return _mapper.Map<SensorGetDto>(sensor);
         }
 
         /// <see cref="ISensorRepository.DeleteSensor(int, CancellationToken)"/>
         public async Task DeleteSensor(int id, CancellationToken cancellationToken)
         {
-            var sensor = await _context.Sensor.SingleOrDefaultAsync(sensor => sensor.Id.Equals(id));
+            var sensor = await _context.Sensor.SingleOrDefaultAsync(sensor => sensor.Id.Equals(id), cancellationToken);
             _context.Remove(sensor);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         /// <see cref="ISensorRepository.GetSensor(int, CancellationToken)"/>
