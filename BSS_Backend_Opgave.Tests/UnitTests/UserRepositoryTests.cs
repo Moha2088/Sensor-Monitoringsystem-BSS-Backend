@@ -1,35 +1,24 @@
 using AutoMapper;
 using BSS_Backend_Opgave.Models;
 using BSS_Backend_Opgave.Repositories.Data;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using BSS_Backend_Opgave.Repositories.Repository;
+using BSS_Backend_Opgave.Tests.UnitTests.Fixtures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BSS_Backend_Opgave.Tests.UnitTests;
 
-public class UserRepositoryTests
+public class UserRepositoryTests : IClassFixture<TestFixture>
 {
-    private readonly BSS_Backend_OpgaveAPIContext _context;
-    private readonly IMapper _mapper;
+    private readonly TestFixture _fixture;
     private readonly UserRepository _userRepository;
 
-    public UserRepositoryTests()
+    public UserRepositoryTests(TestFixture fixture)
     {
-        var options = new DbContextOptionsBuilder<BSS_Backend_OpgaveAPIContext>()
-            .UseInMemoryDatabase(databaseName: "TestDB")
-            .Options;
-
-        _context = new BSS_Backend_OpgaveAPIContext(options);
-
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<UserCreateDTO, User>();
-            cfg.CreateMap<User, UserGetDto>();
-        });
-        _mapper = config.CreateMapper();
-
-        _userRepository = new UserRepository(_context, _mapper);
+        _fixture = fixture;
+        _userRepository = new UserRepository(_fixture.Context, _fixture.Mapper);
     }
 
 
@@ -45,9 +34,9 @@ public class UserRepositoryTests
             Email = "johndoe1@example.com"
         };
 
-        var user = _mapper.Map<User>(dto);
-        _context.User.Add(user);
-        await _context.SaveChangesAsync(cancellationToken);
+        var user = _fixture.Mapper.Map<User>(dto);
+        _fixture.Context.User.Add(user);
+        await _fixture.Context.SaveChangesAsync(cancellationToken);
 
         var result = await _userRepository.GetUser(user.Id, cancellationToken);
 
@@ -68,10 +57,10 @@ public class UserRepositoryTests
             new UserCreateDTO { Name = "Mark", Email = "markdoe@example.com", Password = "Doe789" }
         };
 
-        var users = _mapper.Map<IEnumerable<User>>(dtos);
+        var users = _fixture.Mapper.Map<IEnumerable<User>>(dtos);
 
-        _context.User.AddRange(users!);
-        await _context.SaveChangesAsync(cancellationToken);
+        _fixture.Context.User.AddRange(users!);
+        await _fixture.Context.SaveChangesAsync(cancellationToken);
 
         var result = await _userRepository.GetUsers(cancellationToken);
 
@@ -89,9 +78,9 @@ public class UserRepositoryTests
             Name = "Organisation"
         };
 
-        _context.Organisation.Add(organisation);
+        _fixture.Context.Organisation.Add(organisation);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _fixture.Context.SaveChangesAsync(cancellationToken);
 
         var dto = new UserCreateDTO
         {
@@ -130,10 +119,10 @@ public class UserRepositoryTests
             Password = "JohnDoe12345"
         };
 
-        var existingUser = _mapper.Map<User>(existingUserDto);
-        _context.User.Add(existingUser);
-        _context.Organisation.Add(organisation);
-        await _context.SaveChangesAsync(cancellationToken);
+        var existingUser = _fixture.Mapper.Map<User>(existingUserDto);
+        _fixture.Context.User.Add(existingUser);
+        _fixture.Context.Organisation.Add(organisation);
+        await _fixture.Context.SaveChangesAsync(cancellationToken);
 
         var userDto = new UserCreateDTO
         {

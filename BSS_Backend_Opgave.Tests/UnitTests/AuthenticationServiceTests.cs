@@ -2,6 +2,7 @@
 using BSS_Backend_Opgave.Repositories.Data;
 using BSS_Backend_Opgave.Repositories.Models.Dtos;
 using BSS_Backend_Opgave.Services.Service;
+using BSS_Backend_Opgave.Tests.UnitTests.Fixtures;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,15 @@ using System.Threading.Tasks;
 
 namespace BSS_Backend_Opgave.Tests.UnitTests
 {
-    public class AuthenticationServiceTests
+    public class AuthenticationServiceTests : IClassFixture<TestFixture>
     {
-        private readonly BSS_Backend_OpgaveAPIContext _context;
+        private readonly TestFixture _fixture;
         private readonly AuthenticationService _service;
 
-        public AuthenticationServiceTests()
+        public AuthenticationServiceTests(TestFixture fixture)
         {
-            var options = new DbContextOptionsBuilder<BSS_Backend_OpgaveAPIContext>()
-            .UseInMemoryDatabase(databaseName: "TestDB")
-            .Options;
-
-            _context = new BSS_Backend_OpgaveAPIContext(options);
-
-            _service = new AuthenticationService(_context);
-
+            _fixture = fixture;
+            _service = new AuthenticationService(_fixture!.Context);
         }
 
 
@@ -40,8 +35,8 @@ namespace BSS_Backend_Opgave.Tests.UnitTests
             };
 
 
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
+            _fixture.Context.User.Add(user);
+            await _fixture.Context.SaveChangesAsync();
 
             var authUserDto = new AuthenticateUserDto
             {
@@ -67,8 +62,8 @@ namespace BSS_Backend_Opgave.Tests.UnitTests
             };
 
 
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
+            _fixture.Context.User.Add(user);
+            await _fixture.Context.SaveChangesAsync();
 
             var authUser = new AuthenticateUserDto
             {
