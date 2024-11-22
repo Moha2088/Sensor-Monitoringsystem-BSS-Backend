@@ -6,18 +6,12 @@ using NuGet.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
 
 namespace BSS_Backend_Opgave.API.Hubs;
 
 public sealed class EventHub : Hub<IEventHubClient>
 {
-    private readonly IAuthenticationService _authenticationService;
-
-    public EventHub(IAuthenticationService authenticationService)
-    {
-        _authenticationService = authenticationService;
-    }
-
     public override async Task OnConnectedAsync()
     {
         await Clients.Caller.ReceiveMessage($"You've ({Context.ConnectionId}) joined at: {DateTime.Now:HH:mm:ss}!");
@@ -28,10 +22,9 @@ public sealed class EventHub : Hub<IEventHubClient>
         var userOrgIdClaim = Context.GetHttpContext()!.User.FindFirstValue("organisationId");
         var groupName = userOrgIdClaim;
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName: groupName!);
-        await Task.Delay(5000);
         await Clients.Groups(groupName!).ReceiveMessage($"User: {Context.ConnectionId} has joined room: {groupName} at {DateTime.Now:HH:mm:ss}");
     }
-
+    
     //public async Task LeaveGroup()
     //{
     //    int? userOrgIdClaim = _authenticationService.GetOrganisationIdClaim();

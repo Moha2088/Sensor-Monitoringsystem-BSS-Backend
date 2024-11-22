@@ -8,9 +8,9 @@ public class EventLog
 
     public State? State { get; set; }
 
+    public int StateId { get; set; }
+
     public int SensorId { get; set; }
     
     public Sensor Sensor { get; set; }
-    
-    
 }

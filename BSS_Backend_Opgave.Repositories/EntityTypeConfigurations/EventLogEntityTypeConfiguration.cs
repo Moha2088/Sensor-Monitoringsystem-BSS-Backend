@@ -26,7 +26,8 @@ public class EventLogEntityTypeConfiguration : IEntityTypeConfiguration<EventLog
             .WithOne(x => x.EventLog);
 
         builder.HasOne(x => x.Sensor)
-            .WithMany(x => x.EventLogs);
+            .WithMany(x => x.EventLogs)
+            .HasForeignKey(x => x.SensorId);
 
         #endregion
     }
