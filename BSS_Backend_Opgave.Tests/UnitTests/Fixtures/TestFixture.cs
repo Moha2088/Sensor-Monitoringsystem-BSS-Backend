@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BSS_Backend_Opgave.Models;
 using BSS_Backend_Opgave.Repositories.Data;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.StateDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,6 +35,10 @@ namespace BSS_Backend_Opgave.Tests.UnitTests.Fixtures
                 cfg.CreateMap<User, UserGetDto>();
                 cfg.CreateMap<SensorCreateDto, Sensor>();
                 cfg.CreateMap<Sensor, SensorGetDto>();
+                cfg.CreateMap<EventLogCreateDto, EventLog>();
+                cfg.CreateMap<EventLog, EventLogGetDto>()
+                .ForMember(dest => dest.StateType, opt => opt.MapFrom(src => src.State.StateType));
+                cfg.CreateMap<StateCreateDto, State>();
             });
 
             Mapper = config.CreateMapper();
