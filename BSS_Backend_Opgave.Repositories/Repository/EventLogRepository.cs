@@ -9,6 +9,7 @@ using BSS_Backend_Opgave.Models;
 using AutoMapper;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
 using Microsoft.EntityFrameworkCore;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.StateDtos;
 
 namespace BSS_Backend_Opgave.Repositories.Repository
 {
@@ -32,24 +33,40 @@ namespace BSS_Backend_Opgave.Repositories.Repository
                 .Include(eventLog => eventLog.State)
                 .Where(eventLog => eventLog.Sensor.OrganisationId.Equals(organisationId))
                 .ToListAsync(cancellationToken);
-            
+
             return _mapper.Map<IEnumerable<EventLogGetDto>>(eventLog);
         }
 
-        public async Task<EventLogGetDto> UpdateState()
+        public async Task<EventLogGetDto> UpdateState(int sensorId)
         {
+            var sensor = await _context.Sensor
+                .Include(sensor => sensor.EventLogs)
+                .Include(sensor => sensor.State)
+                .SingleOrDefaultAsync(sensor => sensor.Id.Equals(sensorId));
+
             var eventLog = new EventLog
             {
-                EventTime = DateTimeOffset.Now,
-                State = new State
-                {
-                    StateType = "DRONE SPOTTED"
-                }
+                EventTime = DateTimeOffset.UtcNow,
+                SensorId = sensor.Id
             };
 
-            _context.EventLog.Add(eventLog);
-            await _context.SaveChangesAsync();
+            sensor.EventLogs.Add(eventLog);
 
+            if (sensor.State != null)
+            {
+                _context.State.Remove(sensor.State);
+            }
+
+            var state = new State
+            {
+                StateType = "DRONE SPOTTED",
+                SensorId = sensor.Id,
+                EventLog = eventLog
+            };
+
+            sensor.State = state;
+            
+            await _context.SaveChangesAsync();
             return _mapper.Map<EventLogGetDto>(eventLog);
         }
     }

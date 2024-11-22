@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BSS_Backend_Opgave.Repositories.Migrations
 {
     [DbContext(typeof(BSS_Backend_OpgaveAPIContext))]
-    [Migration("20241119091416_update_eventlog")]
-    partial class update_eventlog
+    [Migration("20241121130343_add_state_id")]
+    partial class add_state_id
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,9 @@ namespace BSS_Backend_Opgave.Repositories.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<int>("SensorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StateId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

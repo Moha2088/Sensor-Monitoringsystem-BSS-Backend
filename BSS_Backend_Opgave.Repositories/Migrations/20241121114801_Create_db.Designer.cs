@@ -4,16 +4,19 @@ using BSS_Backend_Opgave.Repositories.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BSS_Backend_Opgave.API.Migrations
+namespace BSS_Backend_Opgave.Repositories.Migrations
 {
     [DbContext(typeof(BSS_Backend_OpgaveAPIContext))]
-    partial class BSS_Backend_OpgaveAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20241121114801_Create_db")]
+    partial class Create_db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +37,6 @@ namespace BSS_Backend_Opgave.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<int>("SensorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StateId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

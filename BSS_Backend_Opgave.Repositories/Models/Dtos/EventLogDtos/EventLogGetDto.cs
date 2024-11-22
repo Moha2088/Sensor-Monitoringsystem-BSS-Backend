@@ -17,6 +17,8 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos
 
         public string SensorLocation { get; set; } = null!;
 
+        public int SensorId { get; set; }
+
         public string StateType { get; set; } = null!;
     }
 }

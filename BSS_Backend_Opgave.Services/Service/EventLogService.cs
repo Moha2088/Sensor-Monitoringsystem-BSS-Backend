@@ -24,9 +24,9 @@ namespace BSS_Backend_Opgave.Services.Service
             return eventLogs;
         }
 
-        public async Task<EventLogGetDto> UpdateState()
+        public async Task<EventLogGetDto> UpdateState(int sensorId)
         {
-            var eventLog = await _eventLogRepository.UpdateState();
+            var eventLog = await _eventLogRepository.UpdateState(sensorId);
             return eventLog;
         }
     }

@@ -1,32 +1,42 @@
 ﻿using System.Security.Claims;
+using System.Text.Json;
+using BSS_Backend_Opgave.API.Hubs;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BSS_Backend_Opgave.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("MyPolicy")]
     public class EventLogController : ControllerBase
     {
         private readonly IEventLogService _eventLogService;
+        private readonly IHubContext<EventHub, IEventHubClient> _eventHub;
 
 
-        public EventLogController(IEventLogService eventLogService)
+        public EventLogController(IEventLogService eventLogService, IHubContext<EventHub, IEventHubClient> eventHub)
         {
             _eventLogService = eventLogService;
+            _eventHub = eventHub;
         }
 
 
-        [HttpGet("updateState")]
-        public async Task<IActionResult> UpdateState()
+        [HttpGet("updateState/{sensorId}")]
+        public async Task<IActionResult> UpdateState([FromRoute] int sensorId)
         {
-            var result = await _eventLogService.UpdateState();
-            return Ok(result);
+            var result = await _eventLogService.UpdateState(sensorId);
+            var serializedDto = JsonSerializer.Serialize(result);
+            await _eventHub.Clients.All.OnStateChanged(serializedDto);
+            return NoContent();
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetEventLogs(CancellationToken cancellationToken)
         {

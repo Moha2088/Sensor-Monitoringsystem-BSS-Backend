@@ -5,7 +5,7 @@
 namespace BSS_Backend_Opgave.Repositories.Migrations
 {
     /// <inheritdoc />
-    public partial class update_eventlog : Migration
+    public partial class s : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

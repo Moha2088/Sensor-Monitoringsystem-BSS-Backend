@@ -9,6 +9,7 @@ using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.OrganisationDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.StateDtos;
 
 
 namespace BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile
@@ -20,7 +21,6 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile
             #region User
 
             CreateMap<UserCreateDTO, User>();
-
             CreateMap<User, UserGetDto>();
 
             #endregion
@@ -35,6 +35,8 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile
             #region EventLogs
 
             CreateMap<EventLogCreateDto, EventLog>();
+            CreateMap<EventLog, EventLogGetDto>()
+                .ForMember(dest => dest.StateType, opt => opt.MapFrom(src => src.State!.StateType));
 
             #endregion
 
@@ -45,9 +47,10 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile
 
             #endregion
 
-            #region EventLog
+            #region State
 
-            CreateMap<EventLog, EventLogGetDto>();
+            CreateMap<StateCreateDto, State>();
+            CreateMap<State, StateGetDto>();
 
             #endregion
         }
