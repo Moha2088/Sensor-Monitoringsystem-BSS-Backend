@@ -24,6 +24,14 @@ namespace BSS_Backend_Opgave.Tests.IntegrationTests.Factory
 
             builder.ConfigureTestServices(service =>
             {
+                var existingDbContext = service
+                .SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<BSS_Backend_OpgaveAPIContext>));
+
+                if(existingDbContext!= null)
+                {
+                    service.Remove(existingDbContext);
+                }
+
                 service.AddDbContext<BSS_Backend_OpgaveAPIContext>(opt =>
                 {
                     opt.UseInMemoryDatabase("TestDBIntegration");
