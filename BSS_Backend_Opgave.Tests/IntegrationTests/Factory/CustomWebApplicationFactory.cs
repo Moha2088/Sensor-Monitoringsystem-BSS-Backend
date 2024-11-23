@@ -26,8 +26,7 @@ namespace BSS_Backend_Opgave.Tests.IntegrationTests.Factory
             {
                 service.AddDbContext<BSS_Backend_OpgaveAPIContext>(opt =>
                 {
-                    opt.UseSqlServer()
-                    .UseInMemoryDatabase("TestDBIntegration");
+                    opt.UseInMemoryDatabase("TestDBIntegration");
                 });
             });
         }
