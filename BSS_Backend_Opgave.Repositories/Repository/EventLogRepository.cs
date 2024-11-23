@@ -44,6 +44,11 @@ namespace BSS_Backend_Opgave.Repositories.Repository
                 .Include(sensor => sensor.State)
                 .SingleOrDefaultAsync(sensor => sensor.Id.Equals(sensorId));
 
+            if(sensor == null)
+            {
+                throw new InvalidOperationException("Sensor does not exist");
+            }
+
             var eventLog = new EventLog
             {
                 EventTime = DateTimeOffset.UtcNow,
