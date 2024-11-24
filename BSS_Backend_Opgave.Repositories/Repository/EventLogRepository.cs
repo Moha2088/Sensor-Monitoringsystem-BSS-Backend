@@ -46,7 +46,7 @@ namespace BSS_Backend_Opgave.Repositories.Repository
 
             if(sensor == null)
             {
-                throw new InvalidOperationException("Sensor does not exist");
+                throw new NullReferenceException("Sensor does not exist");
             }
 
             var eventLog = new EventLog

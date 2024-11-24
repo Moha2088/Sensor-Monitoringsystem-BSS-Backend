@@ -12,25 +12,13 @@ namespace BSS_Backend_Opgave.API.Hubs;
 
 public sealed class EventHub : Hub<IEventHubClient>
 {
+    public static int? AuthenticatedUserOrgId { get; set; }
+
     public override async Task OnConnectedAsync()
     {
-        await Clients.Caller.ReceiveMessage($"You've ({Context.ConnectionId}) joined at: {DateTime.Now:HH:mm:ss}!");
+        await Groups.AddToGroupAsync(Context.ConnectionId, groupName: AuthenticatedUserOrgId.ToString()!);
+        await Clients.Caller.ReceiveMessage($"You've joined at: {DateTime.Now:HH:mm:ss} and joined group: {AuthenticatedUserOrgId.ToString()!}");
     }
-
-    public async Task JoinGroup()
-    {
-        var userOrgIdClaim = Context.GetHttpContext()!.User.FindFirstValue("organisationId");
-        var groupName = userOrgIdClaim;
-        await Groups.AddToGroupAsync(Context.ConnectionId, groupName: groupName!);
-        await Clients.Groups(groupName!).ReceiveMessage($"User: {Context.ConnectionId} has joined room: {groupName} at {DateTime.Now:HH:mm:ss}");
-    }
-    
-    //public async Task LeaveGroup()
-    //{
-    //    int? userOrgIdClaim = _authenticationService.GetOrganisationIdClaim();
-    //    await Groups.RemoveFromGroupAsync(Context.ConnectionId, userOrgIdClaim.ToString()!);
-    //    await Clients.Caller.ReceiveMessage($"You have left room: {userOrgIdClaim.ToString()} at {DateTime.Now}");
-    //}
 
     public override async Task OnDisconnectedAsync(Exception? e)
     {

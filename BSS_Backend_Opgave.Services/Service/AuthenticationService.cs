@@ -62,7 +62,7 @@ namespace BSS_Backend_Opgave.Services.Service
                     new Claim("organisationId", user.OrganisationId.ToString() ??
                                             throw new ArgumentException("Missing OrganisationId!")),
                 },
-                expires: DateTime.Now.AddMinutes(20),
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: signingCredentials
             );
 
