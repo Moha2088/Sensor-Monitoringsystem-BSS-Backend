@@ -27,5 +27,5 @@ jobs:
       run: cd ${{ env.TEST_PATH }} && dotnet restore
     - name: Build
       run: cd ${{ env.TEST_PATH }} && dotnet build --no-restore
-    - name: Run Unit Tests
+    - name: Run Unit & Integration Tests
       run: cd ${{ env.TEST_PATH }} && dotnet test
