@@ -9,6 +9,7 @@ using System.Net.Http.Json;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
 
 namespace BSS_Backend_Opgave.Tests.IntegrationTests
 {
@@ -29,7 +30,7 @@ namespace BSS_Backend_Opgave.Tests.IntegrationTests
             var userDto = new UserCreateDTO
             {
                 Name = "Test",
-                Email = "test@test.com",
+                Email = "create@test.com",
                 Password = "password",
             };
 
