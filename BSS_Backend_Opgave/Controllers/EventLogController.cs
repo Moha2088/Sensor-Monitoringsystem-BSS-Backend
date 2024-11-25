@@ -28,12 +28,29 @@ namespace BSS_Backend_Opgave.API.Controllers
         }
 
 
+        /// <summary>
+        /// Updates a sensor's state and notifies the organisation's user(s)
+        /// </summary>
+        /// <param name="sensorId"></param>
+        /// <returns></returns>
         [HttpGet("updateState/{sensorId}")]
         public async Task<IActionResult> UpdateState([FromRoute] int sensorId)
         {
-            var result = await _eventLogService.UpdateState(sensorId);
-            var serializedDto = JsonSerializer.Serialize(result);
-            await _eventHub.Clients.All.OnStateChanged(serializedDto);
+            int.TryParse(HttpContext.User.FindFirstValue("organisationId"), out var organisationId);
+
+            try
+            {
+                var result = await _eventLogService.UpdateState(sensorId);
+                var serializedDto = JsonSerializer.Serialize(result);
+                await _eventHub.Clients.All.OnStateChanged(serializedDto);
+                //await _eventHub.Clients.Group(organisationId.ToString()).OnStateChanged(serializedDto);
+            }
+
+            catch (NullReferenceException)
+            {
+                return NotFound("Sensor does not exist!");
+            }
+
             return NoContent();
         }
 
