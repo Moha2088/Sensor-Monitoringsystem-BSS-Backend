@@ -42,8 +42,7 @@ namespace BSS_Backend_Opgave.API.Controllers
             {
                 var result = await _eventLogService.UpdateState(sensorId);
                 var serializedDto = JsonSerializer.Serialize(result);
-                await _eventHub.Clients.All.OnStateChanged(serializedDto);
-                //await _eventHub.Clients.Group(organisationId.ToString()).OnStateChanged(serializedDto);
+                await _eventHub.Clients.Group(organisationId.ToString()).ReceiveMessage(serializedDto);
             }
 
             catch (NullReferenceException)

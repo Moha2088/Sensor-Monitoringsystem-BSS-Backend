@@ -11,6 +11,8 @@ using Microsoft.OpenApi.Models;
 using BSS_Backend_Opgave.Models;
 using Microsoft.AspNetCore.Identity;
 using BSS_Backend_Opgave.API;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNet.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,6 +94,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidAudience = builder.Configuration["JWTSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSettings:Key"] ??
                            throw new ArgumentException("SigningKey not found!")))
+    };
+
+    opt.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var requestPath = context.HttpContext.Request.Path;
+
+            if (!string.IsNullOrEmpty(accessToken) && requestPath.StartsWithSegments("/event"))
+            {
+                context.Token = accessToken;
+            }
+
+            return Task.CompletedTask;
+        }
     };
 });
 
