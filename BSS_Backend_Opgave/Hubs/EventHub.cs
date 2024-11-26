@@ -7,17 +7,18 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BSS_Backend_Opgave.API.Hubs;
 
+[Microsoft.AspNet.SignalR.Authorize]
 public sealed class EventHub : Hub<IEventHubClient>
 {
-    public static int? AuthenticatedUserOrgId { get; set; }
-
     public override async Task OnConnectedAsync()
     {
-        await Groups.AddToGroupAsync(Context.ConnectionId, groupName: AuthenticatedUserOrgId.ToString()!);
-        await Clients.Caller.ReceiveMessage($"You've joined at: {DateTime.Now:HH:mm:ss} and joined group: {AuthenticatedUserOrgId.ToString()!}");
+        int.TryParse(Context.User!.FindFirstValue("organisationId"), out var organisationId);
+        await Groups.AddToGroupAsync(Context.ConnectionId, groupName: organisationId.ToString());
+        await Clients.Group(organisationId.ToString()).ReceiveMessage($"Id: {Context.ConnectionId} has joined group: {organisationId} at {DateTime.Now:HH:mm:ss}");
     }
 
     public override async Task OnDisconnectedAsync(Exception? e)
