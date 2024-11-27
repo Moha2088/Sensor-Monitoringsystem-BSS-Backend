@@ -48,9 +48,17 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO dto, CancellationToken cancellationToken)
     {
-        int.TryParse(HttpContext.User.FindFirstValue("organisationId"), out var organisationId);
-        var result = await _userService.CreateUser(dto, organisationId, cancellationToken);
-        return Created(nameof(CreateUser), result);
+        try
+        {
+            int.TryParse(HttpContext.User.FindFirstValue("organisationId"), out var organisationId);
+            var result = await _userService.CreateUser(dto, organisationId, cancellationToken);
+            return Created(nameof(CreateUser), result);
+        }
+
+        catch (InvalidOperationException)
+        {
+            return Forbid();
+        }
     }
 
     /// <summary>
