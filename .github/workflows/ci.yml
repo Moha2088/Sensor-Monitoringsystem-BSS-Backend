@@ -28,4 +28,4 @@ jobs:
     - name: Build
       run: cd ${{ env.TEST_PATH }} && dotnet build --no-restore
     - name: Run Unit & Integration Tests
-      run: cd ${{ env.TEST_PATH }} && dotnet test /p:CollectCoverage=true
+      run: cd ${{ env.TEST_PATH }} && dotnet test /p:CollectCoverage=true --no-build
