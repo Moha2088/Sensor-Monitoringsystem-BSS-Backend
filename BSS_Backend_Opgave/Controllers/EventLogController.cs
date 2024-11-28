@@ -36,13 +36,12 @@ namespace BSS_Backend_Opgave.API.Controllers
         [HttpGet("updateState/{sensorId}")]
         public async Task<IActionResult> UpdateState([FromRoute] int sensorId)
         {
-            int.TryParse(HttpContext.User.FindFirstValue("organisationId"), out var organisationId);
-
             try
             {
                 var result = await _eventLogService.UpdateState(sensorId);
+                var organisationGroup = result.OrganisationId.ToString();
                 var serializedDto = JsonSerializer.Serialize(result);
-                await _eventHub.Clients.Group(organisationId.ToString()).ReceiveMessage(serializedDto);
+                await _eventHub.Clients.Group(organisationGroup).ReceiveMessage(serializedDto);
             }
 
             catch (NullReferenceException)
