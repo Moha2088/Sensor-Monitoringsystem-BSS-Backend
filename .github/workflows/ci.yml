@@ -29,9 +29,3 @@ jobs:
       run: cd ${{ env.TEST_PATH }} && dotnet build --no-restore
     - name: Run Unit & Integration Tests
       run: cd ${{ env.TEST_PATH }} && dotnet test /p:CollectCoverage=true --no-build
-    - name: Upload to CodeCov
-      uses: codecov/codecov-action@v5.0.7
-      with:
-        name: Code Coverage Report
-        verbose: true
-        token: ${{ secrets.CODECOV_TOKEN }}
