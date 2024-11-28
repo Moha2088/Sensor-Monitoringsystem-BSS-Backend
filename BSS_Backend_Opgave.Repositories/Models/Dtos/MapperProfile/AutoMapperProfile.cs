@@ -36,7 +36,8 @@ namespace BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile
 
             CreateMap<EventLogCreateDto, EventLog>();
             CreateMap<EventLog, EventLogGetDto>()
-                .ForMember(dest => dest.StateType, opt => opt.MapFrom(src => src.State!.StateType));
+                .ForMember(dest => dest.StateType, opt => opt.MapFrom(src => src.State!.StateType))
+                .ForMember(dest => dest.OrganisationId, opt => opt.MapFrom(src => src.Sensor.OrganisationId));
 
             #endregion
 
