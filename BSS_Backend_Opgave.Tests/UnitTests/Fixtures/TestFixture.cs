@@ -2,6 +2,7 @@
 using BSS_Backend_Opgave.Models;
 using BSS_Backend_Opgave.Repositories.Data;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
+using BSS_Backend_Opgave.Repositories.Models.Dtos.OrganisationDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.StateDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
@@ -39,6 +40,8 @@ namespace BSS_Backend_Opgave.Tests.UnitTests.Fixtures
                 cfg.CreateMap<EventLog, EventLogGetDto>()
                 .ForMember(dest => dest.StateType, opt => opt.MapFrom(src => src.State.StateType));
                 cfg.CreateMap<StateCreateDto, State>();
+                cfg.CreateMap<OrganisationCreateDto, Organisation>();
+                cfg.CreateMap<Organisation, OrganisationGetDto>();
             });
 
             Mapper = config.CreateMapper();
