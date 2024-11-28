@@ -69,8 +69,16 @@ public class UserRepositoryTests : IClassFixture<TestFixture>
         result.ToList().ForEach(user => Assert.IsType<UserGetDto>(user));
     }
 
-    [Fact]
-    public async Task CreateUser_ShouldReturnUserGetDto_WhenDtoIsValid()
+    public static IEnumerable<object[]> UserDtoData => new List<object[]>
+    {
+        new object[] { "JohnJohn1", "johndoe123@example.com", "Doe123" },
+        new object[]{"JohnJohn2", "johndoe456@example.com", "Doe456"},
+        new object[]{"JohnJohn3", "johndoe789@example.com", "Doe789"}
+    };
+
+    [Theory]
+    [MemberData(nameof(UserDtoData))]
+    public async Task CreateUser_ShouldReturnUserGetDto_WhenDtoIsValid(string name, string email, string password)
     {
         var cancellationToken = new CancellationToken();
         var organisation = new Organisation
@@ -84,9 +92,9 @@ public class UserRepositoryTests : IClassFixture<TestFixture>
 
         var dto = new UserCreateDTO
         {
-            Name = "JohnJohn",
-            Email = "johndoe123@example.com",
-            Password = "Doe123"
+            Name = name,
+            Email = email,
+            Password = password
         };
 
         var expectedName = dto.Name;
