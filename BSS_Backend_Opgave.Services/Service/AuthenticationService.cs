@@ -72,11 +72,19 @@ namespace BSS_Backend_Opgave.Services.Service
         /// <see cref="IAuthenticationService.IsViewable(int, int)"/>
         public async Task<bool> IsViewable(int sensorId, int organisationId)
         {
-            var sensor = await _context.Sensor
+            try
+            {
+                var sensor = await _context.Sensor
                 .AsNoTracking()
                 .SingleOrDefaultAsync(sensor => sensor.Id.Equals(sensorId));
 
-            return sensor!.OrganisationId.Equals(organisationId);
+                return sensor!.OrganisationId.Equals(organisationId);
+            }
+
+            catch(NullReferenceException)
+            {
+                throw;
+            }
         }
     }
 }
