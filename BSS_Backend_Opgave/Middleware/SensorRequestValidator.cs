@@ -22,27 +22,45 @@ namespace BSS_Backend_Opgave.API
         public async Task Invoke(HttpContext httpContext, IAuthenticationService authenticationService)
         {
             var routePath = httpContext.Request.Path;
+            var method = httpContext.Request.Method;
 
-            if(routePath.ToString().StartsWith("/api/sensors/"))
+            if (routePath.ToString().StartsWith("/api/sensors/") && method.Equals("GET"))
             {
                 int.TryParse(routePath.ToString().AsSpan("/api/sensors/".Length), out var parsedSensorId);
                 int.TryParse(httpContext.User.FindFirstValue("organisationId"), out var parsedOrganisationId);
 
-                if(!await authenticationService.IsViewable(parsedSensorId, parsedOrganisationId))
+                try
                 {
-                    httpContext.Response.StatusCode = 401;
+                    if (!await authenticationService.IsViewable(parsedSensorId, parsedOrganisationId))
+                    {
+                        httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        await httpContext.Response.WriteAsJsonAsync(
+
+                            new ValidatorResponse
+                            {
+                                ErrorMessage = "Access Denied. This sensor exists outside your organisations scope!",
+                            }
+                        );
+
+                        return;
+                    }
+                }
+
+                catch (NullReferenceException)
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
                     await httpContext.Response.WriteAsJsonAsync(
 
                         new ValidatorResponse
                         {
-                            ErrorMessage = "Access Denied. This sensor exists outside your organisations scope!",
+                            ErrorMessage = "Sensor does not exist"
                         }
                     );
 
                     return;
                 }
             }
-            
+
             await _next(httpContext);
         }
     }
