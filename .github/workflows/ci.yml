@@ -32,7 +32,6 @@ jobs:
     - name: Upload to CodeCov
       uses: codecov/codecov-action@v5.0.7
       with:
-        files: ${{ env.TEST_PATH }}/CoverageResults/*
         name: Code Coverage Report
         verbose: true
         token: ${{ secrets.CODECOV_TOKEN }}
