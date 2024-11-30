@@ -1,12 +1,8 @@
-﻿using BSS_Backend_Opgave.Models;
-using BSS_Backend_Opgave.Repositories.Data;
-using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
+﻿using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
 using BSS_Backend_Opgave.Tests.IntegrationTests.Factory;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace BSS_Backend_Opgave.Tests.IntegrationTests
 {
