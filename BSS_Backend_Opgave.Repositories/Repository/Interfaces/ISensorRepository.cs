@@ -1,10 +1,4 @@
-﻿using BSS_Backend_Opgave.Models;
-using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
 
 namespace BSS_Backend_Opgave.Repositories.Repository.Interfaces
 {

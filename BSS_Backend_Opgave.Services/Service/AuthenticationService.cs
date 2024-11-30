@@ -1,17 +1,10 @@
 ﻿using BSS_Backend_Opgave.Models;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
 using BSS_Backend_Opgave.Repositories.Models.Dtos;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using BSS_Backend_Opgave.Repositories.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,22 +25,22 @@ namespace BSS_Backend_Opgave.Services.Service
         /// <see cref="IAuthenticationService.AuthenticateUser(AuthenticateUserDto)"/>
         public async Task<AuthenticateUserGetDto> AuthenticateUser(AuthenticateUserDto dto)
         {
-            if (_context.User.Any(user => user.Email.Equals(dto.Email) && user.Password.Equals(dto.Password)))
+            if (!_context.User.Any(user => user.Email.Equals(dto.Email) && user.Password.Equals(dto.Password)))
             {
-                var user = await _context.User.SingleOrDefaultAsync(user => user.Email.Equals(dto.Email) && user.Password.Equals(dto.Password));
-                var token = GenerateToken(user!);
-
-                return new AuthenticateUserGetDto
-                {
-                    Token = token,
-                };
+                return null!;
             }
 
-            return null!;
+            var user = await _context.User.SingleOrDefaultAsync(user => user.Email.Equals(dto.Email) && user.Password.Equals(dto.Password));
+            var token = GenerateToken(user!);
+
+            return new AuthenticateUserGetDto
+            {
+                Token = token
+            };
         }
 
         /// <see cref="IAuthenticationService.GenerateToken(User)"/>
-        
+
         public string GenerateToken(User user)
         {
             var issuerSigningKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes(_config["JWTSettings:Key"]));
@@ -58,8 +51,8 @@ namespace BSS_Backend_Opgave.Services.Service
                 audience: _config["JWTSettings:Audience"],
                 claims: new List<Claim>
                 {
-                    new Claim("userId", user.Id.ToString()),
-                    new Claim("organisationId", user.OrganisationId.ToString() ??
+                    new("userId", user.Id.ToString()),
+                    new("organisationId", user.OrganisationId.ToString() ??
                                             throw new ArgumentException("Missing OrganisationId!")),
                 },
                 expires: DateTime.Now.AddHours(1),

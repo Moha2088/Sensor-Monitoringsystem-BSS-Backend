@@ -1,15 +1,9 @@
 ﻿using BSS_Backend_Opgave.Repositories.Data;
 using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BSS_Backend_Opgave.Models;
 using AutoMapper;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
 using Microsoft.EntityFrameworkCore;
-using BSS_Backend_Opgave.Repositories.Models.Dtos.StateDtos;
 
 namespace BSS_Backend_Opgave.Repositories.Repository
 {

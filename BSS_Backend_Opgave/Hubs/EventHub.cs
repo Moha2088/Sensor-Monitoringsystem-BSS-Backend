@@ -1,13 +1,5 @@
-using BSS_Backend_Opgave.Services.Service.Interfaces;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
-using NuGet.Common;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
-using BSS_Backend_Opgave.Repositories.Models.Dtos.EventLogDtos;
-using Microsoft.AspNetCore.Authorization;
 
 namespace BSS_Backend_Opgave.API.Hubs;
 

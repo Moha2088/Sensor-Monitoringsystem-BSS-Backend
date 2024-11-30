@@ -1,18 +1,11 @@
 ﻿using BSS_Backend_Opgave.API;
 using BSS_Backend_Opgave.Repositories.Data;
-using BSS_Backend_Opgave.Repositories.Models.Dtos;
-using BSS_Backend_Opgave.Services.Service.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BSS_Backend_Opgave.Tests.IntegrationTests.Factory
 {
@@ -51,16 +44,8 @@ namespace BSS_Backend_Opgave.Tests.IntegrationTests.Factory
                 {
                     opt.DefaultAuthenticateScheme = "TestAuthenticationScheme";
                     opt.DefaultChallengeScheme = "TestAuthenticationScheme";
-                }).AddScheme<AuthenticationSchemeOptions, TestAuthenticationHandler>("TestAuthenticationScheme", options => { });
+                }).AddScheme<AuthenticationSchemeOptions, TestAuthenticationHandler>("TestAuthenticationScheme", null);
             });
-        }
-
-        protected override void ConfigureClient(HttpClient client)
-        {
-            base.ConfigureClient(client);
-
-
-           
         }
     }
 }

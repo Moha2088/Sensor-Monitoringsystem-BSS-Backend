@@ -1,11 +1,6 @@
 ﻿using BSS_Backend_Opgave.Repositories.Models.Dtos.OrganisationDtos;
 using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BSS_Backend_Opgave.Services.Service
 {

@@ -123,7 +123,7 @@ public class SeedData
                 );
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 

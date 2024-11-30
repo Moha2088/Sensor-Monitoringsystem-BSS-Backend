@@ -1,8 +1,4 @@
-﻿using BSS_Backend_Opgave.Repositories.Data;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
 
 namespace BSS_Backend_Opgave.API
