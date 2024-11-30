@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using BSS_Backend_Opgave.Models;
 using BSS_Backend_Opgave.Repositories.EntityTypeConfigurations;
 

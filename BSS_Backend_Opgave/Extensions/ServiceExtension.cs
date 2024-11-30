@@ -1,7 +1,5 @@
 ﻿using BSS_Backend_Opgave.Repositories.Models.Dtos.MapperProfile;
-using BSS_Backend_Opgave.Repositories.Repository;
 using BSS_Backend_Opgave.Repositories.Repository.Interfaces;
-using BSS_Backend_Opgave.Services.Service;
 using Scrutor;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
 
