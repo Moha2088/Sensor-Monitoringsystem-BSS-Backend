@@ -8,11 +8,7 @@ using BSS_Backend_Opgave.Repositories.Data;
 using BSS_Backend_Opgave.API.Extensions;
 using BSS_Backend_Opgave.Repositories.Models.Seeder;
 using Microsoft.OpenApi.Models;
-using BSS_Backend_Opgave.Models;
-using Microsoft.AspNetCore.Identity;
 using BSS_Backend_Opgave.API;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNet.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 

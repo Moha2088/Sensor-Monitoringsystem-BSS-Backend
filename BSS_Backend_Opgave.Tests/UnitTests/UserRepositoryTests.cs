@@ -1,12 +1,7 @@
-using AutoMapper;
 using BSS_Backend_Opgave.Models;
-using BSS_Backend_Opgave.Repositories.Data;
-using BSS_Backend_Opgave.Repositories.Models.Dtos.SensorDtos;
 using BSS_Backend_Opgave.Repositories.Models.Dtos.UserDtos;
 using BSS_Backend_Opgave.Repositories.Repository;
 using BSS_Backend_Opgave.Tests.UnitTests.Fixtures;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BSS_Backend_Opgave.Tests.UnitTests;
 
