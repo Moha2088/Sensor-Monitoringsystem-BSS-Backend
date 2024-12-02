@@ -85,7 +85,7 @@ namespace BSS_Backend_Opgave.API.Controllers
         /// <param name="id">Id of the sensor</param>
         /// <param name="cancellationToken">A cancellation token for cancelling requests</param>
         /// <response code= "204">Returns NoContent</response>
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteSensor([FromRoute] int id, CancellationToken cancellationToken)
         {
