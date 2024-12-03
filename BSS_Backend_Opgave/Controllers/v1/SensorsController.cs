@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace BSS_Backend_Opgave.API.Controllers
+namespace BSS_Backend_Opgave.API.Controllers.v1
 {
     [Authorize]
-    [Route("api/sensors")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [EnableCors("MyPolicy")]
     public class SensorsController : ControllerBase
@@ -19,8 +19,8 @@ namespace BSS_Backend_Opgave.API.Controllers
         {
             _sensorService = sensorService;
         }
-        
- 
+
+
         /// <summary>
         /// Creates a sensor
         /// </summary>

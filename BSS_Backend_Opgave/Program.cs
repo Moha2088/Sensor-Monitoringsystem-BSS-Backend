@@ -9,6 +9,7 @@ using BSS_Backend_Opgave.API.Extensions;
 using BSS_Backend_Opgave.Repositories.Models.Seeder;
 using Microsoft.OpenApi.Models;
 using BSS_Backend_Opgave.API;
+using Asp.Versioning;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,24 @@ builder.Services.AddCors(opt =>
            .WithOrigins("http://localhost:4200");
     });
 });
+
+#region ApiVersioning Options
+
+builder.Services.AddApiVersioning(opt =>
+{
+    opt.DefaultApiVersion = new ApiVersion(1);
+    opt.ReportApiVersions = true;
+    opt.AssumeDefaultVersionWhenUnspecified = true;
+    opt.ApiVersionReader = ApiVersionReader.Combine(
+        new HeaderApiVersionReader("X-Api-Version")
+        );
+}).AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'V";
+    options.SubstituteApiVersionInUrl = true;
+});
+
+#endregion
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

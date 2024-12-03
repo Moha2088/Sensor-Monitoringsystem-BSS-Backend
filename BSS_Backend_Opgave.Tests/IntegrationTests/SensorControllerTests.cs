@@ -26,7 +26,7 @@ namespace BSS_Backend_Opgave.Tests.IntegrationTests
                 Location = "TestLocation"
             };
 
-            var result = await _client.PostAsJsonAsync("api/sensors", sensor);
+            var result = await _client.PostAsJsonAsync("api/v1/sensors", sensor);
 
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.Created);

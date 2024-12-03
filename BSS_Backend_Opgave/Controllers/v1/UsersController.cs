@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Cors;
 
-namespace BSS_Backend_Opgave.API.Controllers;
+namespace BSS_Backend_Opgave.API.Controllers.v1;
 
 [Authorize]
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
 [EnableCors("MyPolicy")]
 public class UsersController : ControllerBase

@@ -1,11 +1,13 @@
-﻿using BSS_Backend_Opgave.Repositories.Models.Dtos;
+﻿using Asp.Versioning;
+using BSS_Backend_Opgave.Repositories.Models.Dtos;
 using BSS_Backend_Opgave.Services.Service.Interfaces;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BSS_Backend_Opgave.API.Controllers
+namespace BSS_Backend_Opgave.API.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [EnableCors("MyPolicy")]
     [ApiController]
     public class AuthenticationController : ControllerBase

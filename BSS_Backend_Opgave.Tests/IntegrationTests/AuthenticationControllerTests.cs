@@ -40,7 +40,7 @@ namespace BSS_Backend_Opgave.Tests.IntegrationTests
                 Password = "Test"
             };
 
-            var result = await _client.PostAsJsonAsync("api/Authentication/login", authDto);
+            var result = await _client.PostAsJsonAsync("api/v1/Authentication/login", authDto);
 
             result.Should().NotBeNull();
             result.IsSuccessStatusCode.Should().BeTrue();
