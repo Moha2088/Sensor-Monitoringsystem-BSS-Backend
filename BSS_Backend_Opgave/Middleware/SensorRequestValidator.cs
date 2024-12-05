@@ -20,9 +20,9 @@ namespace BSS_Backend_Opgave.API
             var routePath = httpContext.Request.Path;
             var method = httpContext.Request.Method;
 
-            if (routePath.ToString().StartsWith("/api/sensors/") && method.Equals("GET"))
+            if (routePath.ToString().StartsWith("/api/v1/Sensors/") && method.Equals("GET"))
             {
-                int.TryParse(routePath.ToString().AsSpan("/api/sensors/".Length), out var parsedSensorId);
+                int.TryParse(routePath.ToString().AsSpan("/api/v1/Sensors/".Length), out var parsedSensorId);
                 int.TryParse(httpContext.User.FindFirstValue("organisationId"), out var parsedOrganisationId);
 
                 try
